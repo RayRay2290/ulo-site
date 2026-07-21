@@ -131,10 +131,7 @@
       border-bottom: 1px solid var(--border);
     }
     
-    .section-title span {
-      font-weight: 300;
-      opacity: 0.5;
-    }
+    .section-title span { font-weight: 300; opacity: 0.5; }
     
     .section-note {
       font-size: 10px;
@@ -182,10 +179,7 @@
       font-weight: 400;
     }
     
-    .room-price {
-      font-size: 10px;
-      color: var(--soft);
-    }
+    .room-price { font-size: 10px; color: var(--soft); }
     
     .dot {
       width: 7px;
@@ -292,6 +286,18 @@
     .add-row input[type="date"] { min-width: 120px; }
     .add-row input[type="text"] { min-width: 110px; }
     
+    .range-label {
+      font-size: 10px;
+      color: var(--soft);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    
+    .range-label input { width: auto; min-width: auto; }
+    
     .status-bar {
       display: flex;
       align-items: center;
@@ -387,7 +393,7 @@
 
 <script>
 // ============================================================
-// ULO ROOM STATUS — Netlify Auto-Deploy
+// ULO ROOM STATUS — with date ranges + Netlify auto-deploy
 // ============================================================
 
 var NETLIFY_HOOK = 'https://api.netlify.com/build_hooks/6a5f662020b6dd2118044827';
@@ -415,7 +421,7 @@ var CONFIGS = {
   'split': { label:'2 Single Rooms',     units:2, price:150000, desc:'Each room separate, living locked' }
 };
 
-var STORE_KEY = 'ulo_room_status_v2';
+var STORE_KEY = 'ulo_room_status_v3';
 var data = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
 
 if (!data.booked) {
@@ -503,6 +509,10 @@ function roomCard(id) {
       </div>
       <div class="add-row">
         <input type="date" id="dt-${id}" min="${new Date().toISOString().split('T')[0]}" />
+        <input type="date" id="dt2-${id}" min="${new Date().toISOString().split('T')[0]}" style="display:none;" placeholder="End date" />
+        <label class="range-label">
+          <input type="checkbox" id="range-${id}" onchange="toggleRange('${id}')" /> Range
+        </label>
         <input type="text" id="gst-${id}" placeholder="Guest name" />
         <select id="tp-${id}"><option value="booked">Booked</option><option value="blocked">Blocked</option></select>
         <button class="btn btn-xs btn-primary" onclick="add('${id}')">+ Add</button>
@@ -554,6 +564,10 @@ function twoBedCard(id) {
       </div>
       <div class="add-row">
         <input type="date" id="dt-${id}" min="${new Date().toISOString().split('T')[0]}" />
+        <input type="date" id="dt2-${id}" min="${new Date().toISOString().split('T')[0]}" style="display:none;" placeholder="End date" />
+        <label class="range-label">
+          <input type="checkbox" id="range-${id}" onchange="toggleRange('${id}')" /> Range
+        </label>
         <input type="text" id="gst-${id}" placeholder="Guest name" />
         <select id="tp-${id}"><option value="booked">Booked</option><option value="blocked">Blocked</option></select>
         <button class="btn btn-xs btn-primary" onclick="add('${id}')">+ Add</button>
@@ -561,32 +575,84 @@ function twoBedCard(id) {
     </div>`;
 }
 
-// ---- ACTIONS ----
-function add(id) {
-  var d = document.getElementById('dt-'+id).value;
-  var g = document.getElementById('gst-'+id).value.trim();
-  var t = document.getElementById('tp-'+id).value;
-  if (!d) return toast('Pick a date','err');
-  
-  var all = [];
-  (data.booked[id]||[]).forEach(function(b) { all.push(b.date); });
-  (data.blocked[id]||[]).forEach(function(b) { all.push(b); });
-  if (all.indexOf(d) !== -1) return toast('Date already set','err');
-  
-  if (t === 'blocked') {
-    data.blocked[id].push(d);
-    data.blocked[id].sort();
-  } else {
-    data.booked[id].push({ date:d, guest:g||'Guest' });
-    data.booked[id].sort(function(a,b) { return a.date.localeCompare(b.date); });
-  }
-  
-  document.getElementById('dt-'+id).value = '';
-  document.getElementById('gst-'+id).value = '';
-  save(); render();
-  toast(ROOMS[id].room + ' · ' + fmtDate(d) + (g?' · '+g:'') + ' · ' + (t==='blocked'?'Blocked':'Booked'), 'ok');
+// ---- RANGE TOGGLE ----
+function toggleRange(id) {
+  var checked = document.getElementById('range-'+id).checked;
+  var dt2 = document.getElementById('dt2-'+id);
+  if (dt2) dt2.style.display = checked ? 'inline-block' : 'none';
 }
 
+// ---- ADD (with range support) ----
+function add(id) {
+  var d1 = document.getElementById('dt-'+id).value;
+  var rangeChecked = document.getElementById('range-'+id)?.checked || false;
+  var d2el = document.getElementById('dt2-'+id);
+  var d2 = rangeChecked ? (d2el?.value || d1) : d1;
+  var g = document.getElementById('gst-'+id).value.trim();
+  var t = document.getElementById('tp-'+id).value;
+  
+  if (!d1) return toast('Pick a date', 'err');
+  
+  // Build list of dates
+  var dates = [];
+  var start = new Date(d1 + 'T00:00:00');
+  var end = new Date(d2 + 'T00:00:00');
+  if (end < start) { var tmp = start; start = end; end = tmp; }
+  
+  var current = new Date(start);
+  while (current <= end) {
+    dates.push(current.toISOString().split('T')[0]);
+    current.setDate(current.getDate() + 1);
+  }
+  
+  // Check which dates already exist
+  var allExisting = [];
+  (data.booked[id]||[]).forEach(function(b) { allExisting.push(b.date); });
+  (data.blocked[id]||[]).forEach(function(b) { allExisting.push(b); });
+  
+  var added = [];
+  var skipped = [];
+  
+  dates.forEach(function(date) {
+    if (allExisting.indexOf(date) !== -1) {
+      skipped.push(date);
+      return;
+    }
+    if (t === 'blocked') {
+      data.blocked[id].push(date);
+    } else {
+      data.booked[id].push({ date:date, guest:g||'Guest' });
+    }
+    added.push(date);
+  });
+  
+  if (added.length === 0) return toast('All dates already set', 'err');
+  
+  data.blocked[id].sort();
+  data.booked[id].sort(function(a,b) { return a.date.localeCompare(b.date); });
+  
+  // Clear inputs
+  document.getElementById('dt-'+id).value = '';
+  if (d2el) d2el.value = '';
+  if (document.getElementById('range-'+id)) {
+    document.getElementById('range-'+id).checked = false;
+  }
+  if (d2el) d2el.style.display = 'none';
+  document.getElementById('gst-'+id).value = '';
+  
+  save(); render();
+  
+  // Build toast message
+  var msg = ROOMS[id].room + ' · ' + fmtDate(added[0]);
+  if (added.length > 1) msg += ' – ' + fmtDate(added[added.length-1]);
+  msg += ' (' + added.length + ' night' + (added.length>1?'s':'') + ')';
+  msg += (g?' · '+g:'') + ' · ' + (t==='blocked'?'Blocked':'Booked');
+  if (skipped.length > 0) msg += ' · ' + skipped.length + ' skipped (already set)';
+  
+  toast(msg, 'ok');
+}
+
+// ---- REMOVE ----
 function remove(id, date, type) {
   if (!confirm('Remove ' + fmtDate(date) + ' from ' + ROOMS[id].room + '?')) return;
   if (type === 'blocked') {
@@ -599,6 +665,7 @@ function remove(id, date, type) {
   toast('Removed ' + fmtDate(date), 'ok');
 }
 
+// ---- SET CONFIG ----
 function setConfig(id, cfg) {
   if (!confirm('Change ' + ROOMS[id].name + ' to ' + CONFIGS[cfg].label + '?\n\n' + CONFIGS[cfg].desc + '\nPrice: ₦' + CONFIGS[cfg].price.toLocaleString() + '\nUnits: ' + CONFIGS[cfg].units)) return;
   data.config[id] = cfg;
@@ -610,7 +677,7 @@ function setConfig(id, cfg) {
 function deploy() {
   var pw = prompt('Enter admin password to deploy:');
   if (pw !== ADMIN_PASSWORD) {
-    toast('❌ Wrong password', 'err');
+    toast('Wrong password', 'err');
     return;
   }
 
@@ -642,19 +709,22 @@ function deploy() {
     updateStatus();
     btn.textContent = orig;
     btn.disabled = false;
-    toast('✅ Site updating! Live in ~30s', 'ok');
+    toast('Site updating — live in ~30s', 'ok');
   })
   .catch(function(err) {
     btn.textContent = orig;
     btn.disabled = false;
     console.error('Deploy error:', err);
-    toast('❌ Failed — ' + err.message, 'err');
+    // Fallback: copy to clipboard
+    navigator.clipboard.writeText(jsonData).then(function() {
+      toast('Copied JSON — upload manually', 'err');
+    });
   });
 }
 
 function copyJSON() {
   navigator.clipboard.writeText(buildJSON()).then(function() {
-    toast('📋 JSON copied', 'ok');
+    toast('JSON copied', 'ok');
   });
 }
 
@@ -721,7 +791,7 @@ function toast(msg, type) {
   el.textContent = msg;
   el.className = 'toast ' + (type||'') + ' show';
   clearTimeout(el._timer);
-  el._timer = setTimeout(function() { el.classList.remove('show'); }, 2200);
+  el._timer = setTimeout(function() { el.classList.remove('show'); }, 2500);
 }
 
 // ---- INIT ----
