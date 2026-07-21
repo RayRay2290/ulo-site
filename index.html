@@ -962,40 +962,132 @@ body.lightbox-open {
     (function(){
       'use strict';
 
+      // ============================================================
+      // AVAILABILITY SYSTEM
+      // ============================================================
+      var availabilityData = null;
+
+      fetch('/rooms.json?' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) { 
+          availabilityData = data;
+          updateAvailabilityDots();
+        })
+        .catch(function() {
+          console.warn('Availability data not loaded — allowing all bookings');
+        });
+
+      function getAvailability(catId, dateStr) {
+        if (!availabilityData || !availabilityData.categories) return 999;
+        var cat = availabilityData.categories[catId];
+        if (!cat) return 0;
+        var booked = cat.bookedDates || [];
+        var blocked = cat.blockedDates || [];
+        if (booked.indexOf(dateStr) !== -1 || blocked.indexOf(dateStr) !== -1) {
+          return Math.max(0, cat.totalAvailable - booked.filter(function(d){ return d===dateStr; }).length);
+        }
+        return cat.totalAvailable - booked.filter(function(d){ return d===dateStr; }).length;
+      }
+
+      function checkAvailability(catId, checkin, checkout) {
+        if (!availabilityData || !availabilityData.categories) return { available: true };
+        var cat = availabilityData.categories[catId];
+        if (!cat) return { available: false };
+        var current = new Date(checkin + 'T00:00:00');
+        var end = new Date(checkout + 'T00:00:00');
+        while (current < end) {
+          if (getAvailability(catId, current.toISOString().split('T')[0]) <= 0) return { available: false };
+          current.setDate(current.getDate() + 1);
+        }
+        return { available: true };
+      }
+
+      function updateAvailabilityDots() {
+        if (!availabilityData || !availabilityData.categories) return;
+        var map = {
+          'Comfort Zone': 'comfort',
+          'Super Comfort': 'super',
+          'Studio Sanctuary': 'studio',
+          'Studio Room': 'studio',
+          'One Bedroom Apartment': 'onebed',
+          'One Bedroom Pool View': 'onebed',
+          'Two Bedroom Apartment': 'twobed'
+        };
+        document.querySelectorAll('.slide[data-section="rooms"]').forEach(function(slide) {
+          var catId = map[slide.getAttribute('data-room')||''];
+          if (!catId) return;
+          var today = new Date(), availDays = 0;
+          for (var i = 0; i < 30; i++) { 
+            var d = new Date(today); d.setDate(d.getDate()+i); 
+            if (getAvailability(catId, d.toISOString().split('T')[0]) > 0) availDays++; 
+          }
+          var dot = document.createElement('span');
+          dot.style.cssText = 'display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:8px;vertical-align:middle;position:relative;top:-1px;flex-shrink:0;';
+          dot.style.backgroundColor = availDays === 0 ? '#C62828' : (availDays < 10 ? '#F57C00' : '#4CAF50');
+          dot.title = availDays === 0 ? 'Fully booked' : (availDays < 10 ? 'Limited: '+availDays+' days' : 'Available: '+availDays+' days');
+          var title = slide.querySelector('.room-title');
+          if (title) { 
+            var ex = title.querySelector('[style*="border-radius:50%"]'); 
+            if (ex) ex.remove(); 
+            title.appendChild(dot); 
+          }
+        });
+      }
+
+      // ============================================================
+      // LIGHTBOX IMAGES — TasteWP S3 URLs
+      // ============================================================
       var roomImages = {
         comfort: [
-          'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&h=800&fit=crop&crop=center',
-          'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&h=800&fit=crop&crop=center'
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/King-bed.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/King-bed2.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Bathroom.JPG'
         ],
         super: [
-          'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=1200&h=800&fit=crop&crop=center',
-          'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&h=800&fit=crop&crop=center',
-          'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=1200&h=800&fit=crop&crop=center'
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Super-comfort-zone.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/King-bed.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Bathroom2.JPG'
         ],
         studio: [
-          'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1200&h=800&fit=crop&crop=center',
-          'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop&crop=center'
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-accents_2.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-accents_3.jpg'
         ],
         oneroom: [
-          'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1200&h=800&fit=crop&crop=center',
-          'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop&crop=center',
-          'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=1200&h=800&fit=crop&crop=center',
-          'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&h=800&fit=crop&crop=center'
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/1bed-balcony.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/1bed-hideout.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Bathroom.JPG'
         ],
         poolview: [
-          'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop&crop=center',
-          'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1200&h=800&fit=crop&crop=center'
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/1bed-poolview.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Pool-view.JPG',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Pool.jpg'
         ],
         twobed: [
-          'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1200&h=800&fit=crop&crop=center',
-          'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop&crop=center',
-          'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=1200&h=800&fit=crop&crop=center'
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/2bed.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/King-bed.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Bathroom2.JPG'
         ]
       };
 
       var allGalleryImages = [];
-      Object.values(roomImages).forEach(function(arr){ allGalleryImages = allGalleryImages.concat(arr); });
-      allGalleryImages.sort(function(){ return Math.random() - 0.5; });
+      Object.values(roomImages).forEach(function(arr) { 
+        allGalleryImages = allGalleryImages.concat(arr); 
+      });
+
+      var extraGalleryImages = [
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-accents.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-accents-nsibidi.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_2.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_3.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_4.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_5.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_7.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/connect.jpg'
+      ];
+
+      allGalleryImages = allGalleryImages.concat(extraGalleryImages);
+      allGalleryImages.sort(function() { return Math.random() - 0.5; });
 
       Object.keys(roomImages).forEach(function(roomId){
         var lb = document.getElementById('lightbox-' + roomId);
@@ -1024,7 +1116,7 @@ body.lightbox-open {
 
       var masonryGrid = document.getElementById('masonryGrid');
       var videoTile = document.createElement('div'); videoTile.className = 'masonry-item video-tile';
-      videoTile.innerHTML = '<video src="https://www.w3schools.com/html/mov_bbb.mp4" muted loop playsinline poster="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=450&fit=crop"></video><button class="play-overlay" aria-label="Play video">▶</button>';
+      videoTile.innerHTML = '<video src="https://www.w3schools.com/html/mov_bbb.mp4" muted loop playsinline poster="https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Pool.jpg"></video><button class="play-overlay" aria-label="Play video">▶</button>';
       masonryGrid.appendChild(videoTile);
 
       allGalleryImages.forEach(function(src, i){
@@ -1118,7 +1210,7 @@ body.lightbox-open {
       var slideIds = ['about','comfort','super','studio','oneroom','poolview','twobed','gallery'];
       var sectionLabels = { about:'The vibe', rooms:'The rooms', gallery:'Gallery' };
       var prevBtn = document.getElementById('prevSlideBtn'), nextBtn = document.getElementById('nextSlideBtn');
-      var prevText = document.getElementById('prevSlideText'), nextText = document.getElementById('nextSlideText');
+      var prevLabel = document.getElementById('prevSlideLabel'), nextLabel = document.getElementById('nextSlideLabel');
       var swipeLeftNav = document.getElementById('swipeLeftNav'), swipeRightNav = document.getElementById('swipeRightNav');
       var sectionIndicator = document.getElementById('sectionIndicator');
       var sectionName = sectionIndicator.querySelector('.section-name'), sectionSub = sectionIndicator.querySelector('.section-sub'), roomCounter = document.getElementById('roomCounter');
@@ -1139,13 +1231,50 @@ body.lightbox-open {
         } else if(sec==='about'){ sectionSub.textContent='Ulõ Residence'; roomCounter.style.display='none'; }
         else { sectionSub.textContent='Photo gallery'; roomCounter.style.display='none'; }
 
-        if(idx===0){ prevBtn.style.display='none'; prevText.style.display='none'; swipeLeftNav.classList.add('hidden'); }
-        else if(idx===slideIds.length-1){ prevBtn.style.display='none'; prevText.style.display='inline'; prevText.href='#'+slideIds[1]; swipeLeftNav.classList.remove('hidden'); }
-        else { prevBtn.style.display='flex'; prevText.style.display='none'; prevBtn.href='#'+slideIds[idx-1]; swipeLeftNav.classList.remove('hidden'); }
+        // Left nav
+        if (idx === 0) {
+          prevBtn.style.display = 'none';
+          prevLabel.style.display = 'none';
+          swipeLeftNav.classList.add('hidden');
+        } else if (idx === slideIds.length - 1) {
+          prevBtn.style.display = 'none';
+          prevLabel.style.display = 'flex';
+          prevLabel.textContent = 'Back to rooms';
+          prevLabel.href = '#comfort';
+          swipeLeftNav.classList.remove('hidden');
+        } else {
+          prevBtn.style.display = 'flex';
+          prevBtn.href = '#' + slideIds[idx - 1];
+          prevLabel.style.display = 'none';
+          swipeLeftNav.classList.remove('hidden');
+        }
 
-        if(idx===0){ nextBtn.style.display='none'; nextText.style.display='inline'; nextText.href='#'+slideIds[1]; swipeRightNav.classList.remove('hidden'); }
-        else if(idx===slideIds.length-1){ nextBtn.style.display='none'; nextText.style.display='none'; swipeRightNav.classList.add('hidden'); }
-        else { nextBtn.style.display='flex'; nextText.style.display='none'; nextBtn.href='#'+slideIds[idx+1]; swipeRightNav.classList.remove('hidden'); }
+        // Right nav
+        if (idx === 0) {
+          nextBtn.style.display = 'none';
+          nextLabel.style.display = 'flex';
+          nextLabel.textContent = 'Our rooms';
+          nextLabel.href = '#comfort';
+          swipeRightNav.classList.remove('hidden');
+        } else if (idx === slideIds.length - 1) {
+          nextBtn.style.display = 'none';
+          nextLabel.style.display = 'none';
+          swipeRightNav.classList.add('hidden');
+        } else {
+          nextBtn.style.display = 'flex';
+          nextBtn.href = '#' + slideIds[idx + 1];
+          nextLabel.style.display = 'none';
+          swipeRightNav.classList.remove('hidden');
+        }
+
+        // Reset scroll position when entering About or Gallery slides
+        if (sec === 'about') {
+          var invitation = cur.querySelector('.invitation');
+          if (invitation) invitation.scrollTop = 0;
+        }
+        if (sec === 'gallery') {
+          cur.scrollTop = 0;
+        }
 
         document.querySelectorAll('.desktop-nav a').forEach(function(l,i){ l.classList.toggle('active', i===idx); });
         document.querySelectorAll('.scroll-snap-indicator .dot').forEach(function(d,i){ d.classList.toggle('active', i===idx); });
@@ -1188,13 +1317,7 @@ body.lightbox-open {
       var entryObs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting) triggerEntry(e.target); else resetEntry(e.target); }); }, { threshold:0.5, root:scrollWrapper });
       allSlides.forEach(function(s){ entryObs.observe(s); });
 
-      // ============================================================
-      // CHECKOUT MODAL
-      // ============================================================
       var checkoutModal = document.getElementById('checkoutModal');
-      var checkoutCard = checkoutModal.querySelector('.checkout-card');
-      var originalCheckoutHTML = checkoutCard.innerHTML; // Save once
-
       document.getElementById('btnBookConfirm').addEventListener('click', function(){
         var room = activeRoomInput.value, price = parseInt(activeRoomPriceInput.value)||85000;
         if(!room){ var fr=document.querySelector('.slide[data-section="rooms"]'); if(fr){ room=fr.getAttribute('data-room'); price=parseInt(fr.getAttribute('data-price'))||85000; } }
@@ -1203,121 +1326,93 @@ body.lightbox-open {
         document.getElementById('summaryRoom').textContent=room; document.getElementById('summaryCheckin').textContent=ci||'—';
         document.getElementById('summaryCheckout').textContent=co||'—'; document.getElementById('summaryGuests').textContent=gu;
         document.getElementById('summaryTotal').textContent='₦'+(price*nights).toLocaleString();
-        
-        // Restore original form if it was replaced by success message
-        if (checkoutCard.querySelector('#checkoutCloseSuccess')) {
-          checkoutCard.innerHTML = originalCheckoutHTML;
-          bindCheckoutEvents();
-        }
-        
-        checkoutModal.classList.add('open'); 
-        setTimeout(function(){ document.getElementById('guestName').focus(); },300); 
-        collapseBar();
+        checkoutModal.classList.add('open'); setTimeout(function(){ document.getElementById('guestName').focus(); },300); collapseBar();
       });
+      document.getElementById('checkoutCancel').addEventListener('click', function(){ checkoutModal.classList.remove('open'); });
+      checkoutModal.addEventListener('click', function(e){ if(e.target===checkoutModal) checkoutModal.classList.remove('open'); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&checkoutModal.classList.contains('open')){ checkoutModal.classList.remove('open'); showBriefLoader(); } if(e.key==='Escape'&&bottomBar.classList.contains('expanded')) collapseBar(); });
+      
+      document.getElementById('checkoutConfirm').addEventListener('click', function(){
+  var n = document.getElementById('guestName').value.trim();
+  var em = document.getElementById('guestEmail').value.trim();
+  if(!n || !em){ alert('Please fill in your name and email.'); return; }
 
-      // Re-bind function for checkout modal events
-      function bindCheckoutEvents() {
-        var cancelBtn = document.getElementById('checkoutCancel');
-        if (cancelBtn) {
-          cancelBtn.addEventListener('click', function(){ checkoutModal.classList.remove('open'); });
-        }
-        
-        var confirmBtn = document.getElementById('checkoutConfirm');
-        if (confirmBtn) {
-          confirmBtn.addEventListener('click', handleCheckoutConfirm);
-        }
-        
-        checkoutModal.addEventListener('click', function(e){ 
-          if(e.target===checkoutModal) checkoutModal.classList.remove('open'); 
-        });
+  var room = document.getElementById('summaryRoom').textContent;
+  var ci = document.getElementById('summaryCheckin').textContent;
+  var co = document.getElementById('summaryCheckout').textContent;
+
+  var catMap = {
+    'Comfort Zone': 'comfort', 'Super Comfort': 'super', 'Studio Sanctuary': 'studio',
+    'Studio Room': 'studio', 'One Bedroom Apartment': 'onebed',
+    'One Bedroom Pool View': 'onebed', 'Two Bedroom Apartment': 'twobed'
+  };
+  var catId = catMap[room];
+  if (catId && availabilityData) {
+    var result = checkAvailability(catId, ci, co);
+    if (!result.available) { 
+      alert('Sorry, ' + room + ' is not available for these dates.\n\nPlease try different dates or call +234 911 910 9461.'); 
+      return; 
+    }
+  }
+
+  var btn = this; var orig = btn.textContent; btn.textContent = 'Sending...'; btn.disabled = true;
+  var phone = document.getElementById('guestPhone').value.trim();
+  var notes = document.getElementById('guestNotes').value.trim();
+  var gu = document.getElementById('summaryGuests').textContent;
+  var total = document.getElementById('summaryTotal').textContent;
+
+  var fd = new FormData();
+  fd.append('name', n); fd.append('email', em); fd.append('phone', phone||'Not provided');
+  fd.append('notes', notes||'None'); fd.append('room', room); fd.append('checkin', ci);
+  fd.append('checkout', co); fd.append('guests', gu); fd.append('total', total);
+  fd.append('_subject', 'Booking: ' + room + ' – ' + n);
+
+  var modal = document.getElementById('checkoutModal');
+  var card = modal.querySelector('.checkout-card');
+  if (!modal._originalHTML) modal._originalHTML = card.innerHTML;
+
+  fetch('https://formspree.io/f/xykrwkoy', { method:'POST', headers:{'Accept':'application/json'}, body:fd })
+  .then(function(r){ 
+    return r.json().catch(function(){ return {}; }); 
+  })
+  .then(function(){
+    card.innerHTML = '<div style="text-align:center;padding:var(--space-lg) 0;">'+
+      '<div style="font-family:\'Playfair Display\',serif;font-style:italic;font-size:2rem;color:var(--color-gold);margin-bottom:var(--space-sm);">✧</div>'+
+      '<h2 style="font-family:\'DM Serif Display\',serif;font-size:var(--text-fluid-lg);margin-bottom:4px;font-weight:400;">All set, '+n.split(' ')[0]+'.</h2>'+
+      '<p style="color:var(--color-text-soft);line-height:1.8;max-width:300px;margin:0 auto var(--space-md);font-size:var(--text-base);">Your enquiry for <strong>'+room+'</strong> has been received.</p>'+
+      '<p style="font-size:var(--text-xs);color:var(--color-text-soft);opacity:0.5;">We\'ll confirm within a few hours.<br>'+(phone?'We may reach out via WhatsApp.':'Please check your email.')+'</p>'+
+      '<button id="checkoutCloseSuccess" style="margin-top:var(--space-lg);background:transparent;border:1px solid var(--color-gold);color:var(--color-gold);padding:var(--space-xs) var(--space-xl);font-family:\'DM Sans\',sans-serif;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;">Close</button></div>';
+    
+    document.getElementById('guestName').value=''; document.getElementById('guestEmail').value='';
+    document.getElementById('guestPhone').value=''; document.getElementById('guestNotes').value='';
+    
+    document.getElementById('checkoutCloseSuccess').addEventListener('click', function(){
+      card.innerHTML = modal._originalHTML;
+      modal.classList.remove('open');
+      collapseBar();
+      // Re-bind cancel
+      var newCancel = document.getElementById('checkoutCancel');
+      if (newCancel) {
+        var clone = newCancel.cloneNode(true);
+        newCancel.parentNode.replaceChild(clone, newCancel);
+        clone.addEventListener('click', function(){ modal.classList.remove('open'); });
       }
-
-      // Named function so we can re-bind it
-      function handleCheckoutConfirm() {
-        var n = document.getElementById('guestName').value.trim();
-        var em = document.getElementById('guestEmail').value.trim();
-        
-        if(!n || !em) { 
-          alert('Please fill in your name and email.'); 
-          return; 
-        }
-        
-        var btn = this;
-        var orig = btn.textContent;
-        btn.textContent = 'Sending...';
-        btn.disabled = true;
-        
-        var room = document.getElementById('summaryRoom').textContent;
-        var ci = document.getElementById('summaryCheckin').textContent;
-        var co = document.getElementById('summaryCheckout').textContent;
-        var gu = document.getElementById('summaryGuests').textContent;
-        var total = document.getElementById('summaryTotal').textContent;
-        
-        var fd = new FormData();
-        fd.append('name', n);
-        fd.append('email', em);
-        fd.append('room', room);
-        fd.append('checkin', ci);
-        fd.append('checkout', co);
-        fd.append('guests', gu);
-        fd.append('total', total);
-        
-        fetch('https://formspree.io/f/xykrwkoy', {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: fd
-        })
-        .then(function(r) {
-          return r.json().catch(function() { return {}; });
-        })
-        .then(function() {
-          // Show success inside modal
-          checkoutCard.innerHTML = `
-            <div style="text-align:center;padding:var(--space-lg) 0;">
-              <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:2rem;color:var(--color-gold);margin-bottom:var(--space-sm);">✧</div>
-              <h2 style="font-family:'DM Serif Display',serif;font-size:var(--text-fluid-lg);margin-bottom:4px;font-weight:400;">All set, ${n.split(' ')[0]}.</h2>
-              <p style="color:var(--color-text-soft);line-height:1.8;max-width:300px;margin:0 auto var(--space-md);font-size:var(--text-base);">Your enquiry for <strong>${room}</strong> has been received.</p>
-              <p style="font-size:var(--text-xs);color:var(--color-text-soft);opacity:0.5;">We'll confirm within a few hours.</p>
-              <button id="checkoutCloseSuccess" style="margin-top:var(--space-lg);background:transparent;border:1px solid var(--color-gold);color:var(--color-gold);padding:var(--space-xs) var(--space-xl);font-family:'DM Sans',sans-serif;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;">Close</button>
-            </div>
-          `;
-          
-          document.getElementById('checkoutCloseSuccess').addEventListener('click', function() {
-            // Restore original form
-            checkoutCard.innerHTML = originalCheckoutHTML;
-            // Re-bind all events
-            bindCheckoutEvents();
-            // Close modal
-            checkoutModal.classList.remove('open');
-            // Clear input fields
-            document.getElementById('guestName').value = '';
-            document.getElementById('guestEmail').value = '';
-            // Collapse bottom bar
-            collapseBar();
-          });
-          
-          document.getElementById('guestName').value = '';
-          document.getElementById('guestEmail').value = '';
-        })
-        .catch(function() {
-          alert('Something went wrong. Please WhatsApp or call +234 911 910 9461.');
-        })
-        .finally(function() {
-          btn.textContent = orig;
-          btn.disabled = false;
-        });
+      // Re-bind confirm
+      var newConfirm = document.getElementById('checkoutConfirm');
+      if (newConfirm) {
+        var clone = newConfirm.cloneNode(true);
+        newConfirm.parentNode.replaceChild(clone, newConfirm);
+        clone.addEventListener('click', arguments.callee);
       }
-
-      // Initial binding
-      bindCheckoutEvents();
-
-      // Escape key to close modal
-      document.addEventListener('keydown', function(e){ 
-        if(e.key==='Escape' && checkoutModal.classList.contains('open')){ 
-          checkoutModal.classList.remove('open'); 
-        } 
-        if(e.key==='Escape' && bottomBar.classList.contains('expanded')) collapseBar(); 
-      });
+    });
+  })
+  .catch(function(){ 
+    alert('Something went wrong. Please WhatsApp or call +234 911 910 9461.'); 
+  })
+  .finally(function(){
+    btn.textContent = orig; btn.disabled = false;
+  });
+});
 
       document.addEventListener('keydown', function(e){
         if(e.target.closest('input, select, textarea, .lightbox')) return;
@@ -1325,6 +1420,135 @@ body.lightbox-open {
         if(e.key==='ArrowRight'&&idx<allSlides.length-1){ e.preventDefault(); allSlides[idx+1].scrollIntoView({behavior:'smooth',inline:'start'}); }
         else if(e.key==='ArrowLeft'&&idx>0){ e.preventDefault(); allSlides[idx-1].scrollIntoView({behavior:'smooth',inline:'start'}); }
       });
+
+      // ============================================================
+      // DYNAMIC IMAGE LOADER (overrides defaults when images.json exists)
+      // ============================================================
+      fetch('/images.json?' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          console.log('✅ Custom images loaded from images.json');
+          applyCustomImages(data);
+        })
+        .catch(function() {
+          console.log('ℹ️ Using default images');
+        });
+
+      function applyCustomImages(data) {
+        if (!data) return;
+        
+        if (data.slides) {
+          Object.keys(data.slides).forEach(function(key) {
+            var slide = document.getElementById(key);
+            var img = data.slides[key];
+            var url = typeof img === 'string' ? img : (img ? img.url : null);
+            if (slide && url) {
+              slide.style.backgroundImage = 'url(' + url + ')';
+            }
+          });
+        }
+        
+        if (data.lightbox) {
+          Object.keys(data.lightbox).forEach(function(roomId) {
+            var lb = document.getElementById('lightbox-' + roomId);
+            if (!lb) return;
+            var gallery = lb.querySelector('.lightbox-gallery');
+            var thumbs = lb.querySelector('.lightbox-thumbs');
+            if (!gallery) return;
+            
+            var images = data.lightbox[roomId];
+            if (!images || !images.length) return;
+            
+            gallery.innerHTML = '';
+            if (thumbs) thumbs.innerHTML = '';
+            
+            images.forEach(function(img, i) {
+              var url = typeof img === 'string' ? img : img.url;
+              var el = document.createElement('img');
+              el.src = url;
+              el.alt = roomId + ' photo ' + (i + 1);
+              el.loading = 'lazy';
+              gallery.appendChild(el);
+              
+              if (thumbs && images.length > 1) {
+                var thumb = document.createElement('img');
+                thumb.src = url;
+                thumb.className = 'thumb' + (i === 0 ? ' active' : '');
+                thumb.setAttribute('data-index', i);
+                thumb.alt = 'Thumb ' + (i + 1);
+                thumbs.appendChild(thumb);
+              }
+            });
+            
+            var counter = lb.querySelector('.lightbox-counter');
+            if (counter) {
+              counter.style.display = images.length <= 1 ? 'none' : '';
+              if (images.length > 1) counter.textContent = '1 of ' + images.length;
+            }
+          });
+        }
+        
+        if (data.gallery && data.gallery.length) {
+          var grid = document.getElementById('masonryGrid');
+          if (!grid) return;
+          
+          var vt = grid.querySelector('.video-tile');
+          var videoHTML = vt ? vt.outerHTML : '';
+          
+          grid.innerHTML = '';
+          if (videoHTML) grid.innerHTML = videoHTML;
+          
+          data.gallery.forEach(function(img, i) {
+            var url = typeof img === 'string' ? img : img.url;
+            var item = document.createElement('div');
+            item.className = 'masonry-item';
+            var imgEl = document.createElement('img');
+            imgEl.src = url;
+            imgEl.alt = 'Ulõ property';
+            imgEl.loading = 'lazy';
+            item.appendChild(imgEl);
+            item.addEventListener('click', function() {
+              var glb = document.getElementById('lightbox-gallery');
+              var glbg = document.getElementById('galleryLightboxGallery');
+              if (glb && glbg) openLbAtIndex(glb, i);
+            });
+            grid.appendChild(item);
+          });
+          
+          rebindVideoPlay();
+        }
+        
+        var glbg = document.getElementById('galleryLightboxGallery');
+        if (glbg && data.gallery) {
+          glbg.innerHTML = '';
+          data.gallery.forEach(function(img, i) {
+            var url = typeof img === 'string' ? img : img.url;
+            var el = document.createElement('img');
+            el.src = url;
+            el.alt = 'Gallery ' + (i + 1);
+            el.loading = 'lazy';
+            el.setAttribute('data-gallery-index', i);
+            glbg.appendChild(el);
+          });
+        }
+      }
+
+      function rebindVideoPlay() {
+        var vt = document.querySelector('.masonry-grid .video-tile');
+        if (!vt) return;
+        var video = vt.querySelector('video');
+        var playBtn = vt.querySelector('.play-overlay');
+        if (!video || !playBtn) return;
+        
+        playBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (video.paused) { video.play().catch(function(){}); playBtn.classList.add('hidden'); }
+          else { video.pause(); playBtn.classList.remove('hidden'); }
+        });
+        video.addEventListener('pause', function() { playBtn.classList.remove('hidden'); });
+        video.addEventListener('ended', function() { playBtn.classList.remove('hidden'); });
+      }
+
     })();
   </script>
 </body>
