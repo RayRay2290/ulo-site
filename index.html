@@ -958,7 +958,7 @@ body.lightbox-open {
     </div>
   </div>
 
-  <script>
+<script>
     (function(){
       'use strict';
 
@@ -1035,7 +1035,7 @@ body.lightbox-open {
       }
 
       // ============================================================
-      // LIGHTBOX IMAGES — TasteWP S3 URLs
+      // LIGHTBOX IMAGES
       // ============================================================
       var roomImages = {
         comfort: [
@@ -1231,43 +1231,22 @@ body.lightbox-open {
         } else if(sec==='about'){ sectionSub.textContent='Ulõ Residence'; roomCounter.style.display='none'; }
         else { sectionSub.textContent='Photo gallery'; roomCounter.style.display='none'; }
 
-        // Left nav
         if (idx === 0) {
-          prevBtn.style.display = 'none';
-          prevLabel.style.display = 'none';
-          swipeLeftNav.classList.add('hidden');
+          prevBtn.style.display = 'none'; prevLabel.style.display = 'none'; swipeLeftNav.classList.add('hidden');
         } else if (idx === slideIds.length - 1) {
-          prevBtn.style.display = 'none';
-          prevLabel.style.display = 'flex';
-          prevLabel.textContent = 'Back to rooms';
-          prevLabel.href = '#comfort';
-          swipeLeftNav.classList.remove('hidden');
+          prevBtn.style.display = 'none'; prevLabel.style.display = 'flex'; prevLabel.textContent = 'Back to rooms'; prevLabel.href = '#comfort'; swipeLeftNav.classList.remove('hidden');
         } else {
-          prevBtn.style.display = 'flex';
-          prevBtn.href = '#' + slideIds[idx - 1];
-          prevLabel.style.display = 'none';
-          swipeLeftNav.classList.remove('hidden');
+          prevBtn.style.display = 'flex'; prevBtn.href = '#' + slideIds[idx - 1]; prevLabel.style.display = 'none'; swipeLeftNav.classList.remove('hidden');
         }
 
-        // Right nav
         if (idx === 0) {
-          nextBtn.style.display = 'none';
-          nextLabel.style.display = 'flex';
-          nextLabel.textContent = 'Our rooms';
-          nextLabel.href = '#comfort';
-          swipeRightNav.classList.remove('hidden');
+          nextBtn.style.display = 'none'; nextLabel.style.display = 'flex'; nextLabel.textContent = 'Our rooms'; nextLabel.href = '#comfort'; swipeRightNav.classList.remove('hidden');
         } else if (idx === slideIds.length - 1) {
-          nextBtn.style.display = 'none';
-          nextLabel.style.display = 'none';
-          swipeRightNav.classList.add('hidden');
+          nextBtn.style.display = 'none'; nextLabel.style.display = 'none'; swipeRightNav.classList.add('hidden');
         } else {
-          nextBtn.style.display = 'flex';
-          nextBtn.href = '#' + slideIds[idx + 1];
-          nextLabel.style.display = 'none';
-          swipeRightNav.classList.remove('hidden');
+          nextBtn.style.display = 'flex'; nextBtn.href = '#' + slideIds[idx + 1]; nextLabel.style.display = 'none'; swipeRightNav.classList.remove('hidden');
         }
 
-        // Reset scroll position when entering About or Gallery slides
         if (sec === 'about') {
           var invitation = cur.querySelector('.invitation');
           if (invitation) invitation.scrollTop = 0;
@@ -1317,120 +1296,85 @@ body.lightbox-open {
       var entryObs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting) triggerEntry(e.target); else resetEntry(e.target); }); }, { threshold:0.5, root:scrollWrapper });
       allSlides.forEach(function(s){ entryObs.observe(s); });
 
- // Store original modal HTML once at startup
-var checkoutModal = document.getElementById('checkoutModal');
-var checkoutCard = checkoutModal.querySelector('.checkout-card');
-var originalModalHTML = checkoutCard.innerHTML;
-
-document.getElementById('btnBookConfirm').addEventListener('click', function(){
-  var room = activeRoomInput.value, price = parseInt(activeRoomPriceInput.value)||85000;
-  if(!room){ var fr=document.querySelector('.slide[data-section="rooms"]'); if(fr){ room=fr.getAttribute('data-room'); price=parseInt(fr.getAttribute('data-price'))||85000; } }
-  var ci=checkinInput.value, co=checkoutInput.value, gu=document.getElementById('guests').value;
-  var nights=Math.max(1,Math.ceil((new Date(co)-new Date(ci))/(86400000)));
-  document.getElementById('summaryRoom').textContent=room; document.getElementById('summaryCheckin').textContent=ci||'—';
-  document.getElementById('summaryCheckout').textContent=co||'—'; document.getElementById('summaryGuests').textContent=gu;
-  document.getElementById('summaryTotal').textContent='₦'+(price*nights).toLocaleString();
-  checkoutModal.classList.add('open'); setTimeout(function(){ document.getElementById('guestName').focus(); },300); collapseBar();
-});
-
-// Cancel button - close modal and collapse bar
-document.getElementById('checkoutCancel').addEventListener('click', function(){ 
-  checkoutModal.classList.remove('open'); 
-  collapseBar();
-});
-
-// Click outside to close
-checkoutModal.addEventListener('click', function(e){ 
-  if(e.target===checkoutModal) {
-    checkoutModal.classList.remove('open'); 
-    collapseBar();
-  }
-});
-
-// Escape key
-document.addEventListener('keydown', function(e){ 
-  if(e.key==='Escape'&&checkoutModal.classList.contains('open')){ 
-    checkoutModal.classList.remove('open'); 
-    collapseBar();
-  } 
-  if(e.key==='Escape'&&bottomBar.classList.contains('expanded')) collapseBar(); 
-});
-
-// SUBMIT HANDLER - rewritten completely
-document.getElementById('checkoutConfirm').addEventListener('click', function submitHandler(){
-  var n = document.getElementById('guestName').value.trim();
-  var em = document.getElementById('guestEmail').value.trim();
-  if(!n || !em){ alert('Please fill in your name and email.'); return; }
-
-  var room = document.getElementById('summaryRoom').textContent;
-  var ci = document.getElementById('summaryCheckin').textContent;
-  var co = document.getElementById('summaryCheckout').textContent;
-
-  var catMap = {
-    'Comfort Zone': 'comfort', 'Super Comfort': 'super', 'Studio Sanctuary': 'studio',
-    'Studio Room': 'studio', 'One Bedroom Apartment': 'onebed',
-    'One Bedroom Pool View': 'onebed', 'Two Bedroom Apartment': 'twobed'
-  };
-  var catId = catMap[room];
-  if (catId && availabilityData) {
-    var result = checkAvailability(catId, ci, co);
-    if (!result.available) { 
-      alert('Sorry, ' + room + ' is not available for these dates.\n\nPlease try different dates or call +234 911 910 9461.'); 
-      return; 
-    }
-  }
-
-  var btn = this; var orig = btn.textContent; btn.textContent = 'Sending...'; btn.disabled = true;
-  var phone = document.getElementById('guestPhone').value.trim();
-  var notes = document.getElementById('guestNotes').value.trim();
-  var gu = document.getElementById('summaryGuests').textContent;
-  var total = document.getElementById('summaryTotal').textContent;
-
-  var fd = new FormData();
-  fd.append('name', n); fd.append('email', em); fd.append('phone', phone||'Not provided');
-  fd.append('notes', notes||'None'); fd.append('room', room); fd.append('checkin', ci);
-  fd.append('checkout', co); fd.append('guests', gu); fd.append('total', total);
-  fd.append('_subject', 'Booking: ' + room + ' – ' + n);
-
-  fetch('https://formspree.io/f/xykrwkoy', { method:'POST', headers:{'Accept':'application/json'}, body:fd })
-  .then(function(r){ return r.json().catch(function(){ return {}; }); })
-  .then(function(){
-    // Show success
-    checkoutCard.innerHTML = '<div style="text-align:center;padding:var(--space-lg) 0;">'+
-      '<div style="font-family:\'Playfair Display\',serif;font-style:italic;font-size:2rem;color:var(--color-gold);margin-bottom:var(--space-sm);">✧</div>'+
-      '<h2 style="font-family:\'DM Serif Display\',serif;font-size:var(--text-fluid-lg);margin-bottom:4px;font-weight:400;">All set, '+n.split(' ')[0]+'.</h2>'+
-      '<p style="color:var(--color-text-soft);line-height:1.8;max-width:300px;margin:0 auto var(--space-md);font-size:var(--text-base);">Your enquiry for <strong>'+room+'</strong> has been received.</p>'+
-      '<p style="font-size:var(--text-xs);color:var(--color-text-soft);opacity:0.5;">We\'ll confirm within a few hours.<br>'+(phone?'We may reach out via WhatsApp.':'Please check your email.')+'</p>'+
-      '<button id="checkoutCloseSuccess" style="margin-top:var(--space-lg);background:transparent;border:1px solid var(--color-gold);color:var(--color-gold);padding:var(--space-xs) var(--space-xl);font-family:\'DM Sans\',sans-serif;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;">Close</button></div>';
-    
-    // Clear fields
-    document.getElementById('guestName').value=''; document.getElementById('guestEmail').value='';
-    document.getElementById('guestPhone').value=''; document.getElementById('guestNotes').value='';
-    
-    // Close button on success
-    document.getElementById('checkoutCloseSuccess').addEventListener('click', function(){
-      // Restore original form
-      checkoutCard.innerHTML = originalModalHTML;
-      checkoutModal.classList.remove('open');
-      collapseBar();
+      // ============================================================
+      // BOOKING FORM — Simple, no HTML replacement
+      // ============================================================
+      var checkoutModal = document.getElementById('checkoutModal');
       
-      // Re-bind everything fresh by re-running the setup
+      document.getElementById('btnBookConfirm').addEventListener('click', function(){
+        var room = activeRoomInput.value, price = parseInt(activeRoomPriceInput.value)||85000;
+        if(!room){ var fr=document.querySelector('.slide[data-section="rooms"]'); if(fr){ room=fr.getAttribute('data-room'); price=parseInt(fr.getAttribute('data-price'))||85000; } }
+        var ci=checkinInput.value, co=checkoutInput.value, gu=document.getElementById('guests').value;
+        var nights=Math.max(1,Math.ceil((new Date(co)-new Date(ci))/(86400000)));
+        document.getElementById('summaryRoom').textContent=room; document.getElementById('summaryCheckin').textContent=ci||'—';
+        document.getElementById('summaryCheckout').textContent=co||'—'; document.getElementById('summaryGuests').textContent=gu;
+        document.getElementById('summaryTotal').textContent='₦'+(price*nights).toLocaleString();
+        checkoutModal.classList.add('open'); setTimeout(function(){ document.getElementById('guestName').focus(); },300); collapseBar();
+      });
+      
       document.getElementById('checkoutCancel').addEventListener('click', function(){ 
         checkoutModal.classList.remove('open'); 
-        collapseBar();
       });
-      document.getElementById('checkoutConfirm').addEventListener('click', submitHandler);
-      // Reset the original HTML reference since innerHTML changed
-      originalModalHTML = checkoutCard.innerHTML;
-    });
-  })
-  .catch(function(){ 
-    alert('Something went wrong. Please WhatsApp or call +234 911 910 9461.'); 
-  })
-  .finally(function(){
-    btn.textContent = orig; btn.disabled = false;
-  });
-});
+      
+      checkoutModal.addEventListener('click', function(e){ 
+        if(e.target===checkoutModal) checkoutModal.classList.remove('open'); 
+      });
+      
+      document.addEventListener('keydown', function(e){ 
+        if(e.key==='Escape'&&checkoutModal.classList.contains('open')){ 
+          checkoutModal.classList.remove('open'); 
+        } 
+        if(e.key==='Escape'&&bottomBar.classList.contains('expanded')) collapseBar(); 
+      });
+      
+      document.getElementById('checkoutConfirm').addEventListener('click', function(){
+        var n = document.getElementById('guestName').value.trim();
+        var em = document.getElementById('guestEmail').value.trim();
+        if(!n || !em){ alert('Please fill in your name and email.'); return; }
+
+        var room = document.getElementById('summaryRoom').textContent;
+        var ci = document.getElementById('summaryCheckin').textContent;
+        var co = document.getElementById('summaryCheckout').textContent;
+
+        var catMap = {
+          'Comfort Zone': 'comfort', 'Super Comfort': 'super', 'Studio Sanctuary': 'studio',
+          'Studio Room': 'studio', 'One Bedroom Apartment': 'onebed',
+          'One Bedroom Pool View': 'onebed', 'Two Bedroom Apartment': 'twobed'
+        };
+        var catId = catMap[room];
+        if (catId && availabilityData) {
+          var result = checkAvailability(catId, ci, co);
+          if (!result.available) { 
+            alert('Sorry, ' + room + ' is not available for these dates.\n\nPlease try different dates or call +234 911 910 9461.'); 
+            return; 
+          }
+        }
+
+        var btn = this; var orig = btn.textContent; btn.textContent = 'Sending...'; btn.disabled = true;
+        var phone = document.getElementById('guestPhone').value.trim();
+        var notes = document.getElementById('guestNotes').value.trim();
+        var gu = document.getElementById('summaryGuests').textContent;
+        var total = document.getElementById('summaryTotal').textContent;
+
+        var fd = new FormData();
+        fd.append('name', n); fd.append('email', em); fd.append('phone', phone||'Not provided');
+        fd.append('notes', notes||'None'); fd.append('room', room); fd.append('checkin', ci);
+        fd.append('checkout', co); fd.append('guests', gu); fd.append('total', total);
+        fd.append('_subject', 'Booking: ' + room + ' – ' + n);
+
+        fetch('https://formspree.io/f/xykrwkoy', { method:'POST', headers:{'Accept':'application/json'}, body:fd })
+        .finally(function(){
+          checkoutModal.classList.remove('open');
+          collapseBar();
+          document.getElementById('guestName').value = '';
+          document.getElementById('guestEmail').value = '';
+          document.getElementById('guestPhone').value = '';
+          document.getElementById('guestNotes').value = '';
+          alert('✨ Thank you, ' + n.split(' ')[0] + '!\n\nYour enquiry for ' + room + ' has been received.\nWe\'ll confirm within a few hours.');
+          btn.textContent = orig;
+          btn.disabled = false;
+        });
+      });
 
       document.addEventListener('keydown', function(e){
         if(e.target.closest('input, select, textarea, .lightbox')) return;
@@ -1440,7 +1384,7 @@ document.getElementById('checkoutConfirm').addEventListener('click', function su
       });
 
       // ============================================================
-      // DYNAMIC IMAGE LOADER (overrides defaults when images.json exists)
+      // DYNAMIC IMAGE LOADER
       // ============================================================
       fetch('/images.json?' + Date.now())
         .then(function(r) { return r.json(); })
