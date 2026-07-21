@@ -936,8 +936,11 @@ body.lightbox-open {
     </div>
   </div>
 
-  <div class="checkout-overlay" id="checkoutModal" role="dialog" aria-modal="true" aria-label="Booking confirmation">
-    <div class="checkout-card">
+<div class="checkout-overlay" id="checkoutModal" role="dialog" aria-modal="true" aria-label="Booking confirmation">
+  <div class="checkout-card">
+    
+    <!-- FORM SECTION -->
+    <div id="checkoutFormSection">
       <h2>Almost there</h2>
       <div class="sub">We'll confirm within 24 hours.</div>
       <div id="checkoutSummary">
@@ -956,7 +959,20 @@ body.lightbox-open {
         <button class="btn-confirm" id="checkoutConfirm" aria-label="Send enquiry">Send it over</button>
       </div>
     </div>
+    
+    <!-- SUCCESS SECTION (hidden by default) -->
+    <div id="checkoutSuccessSection" style="display:none;">
+      <div style="text-align:center;padding:var(--space-lg) 0;">
+        <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:2rem;color:var(--color-gold);margin-bottom:var(--space-sm);">✧</div>
+        <h2 style="font-family:'DM Serif Display',serif;font-size:var(--text-fluid-lg);margin-bottom:4px;font-weight:400;">All set, <span id="successName"></span>.</h2>
+        <p style="color:var(--color-text-soft);line-height:1.8;max-width:300px;margin:0 auto var(--space-md);font-size:var(--text-base);">Your enquiry for <strong><span id="successRoom"></span></strong> has been received.</p>
+        <p style="font-size:var(--text-xs);color:var(--color-text-soft);opacity:0.5;">We'll confirm within a few hours.<br><span id="successPhone">We may reach out via WhatsApp.</span></p>
+        <button id="checkoutCloseSuccess" style="margin-top:var(--space-lg);background:transparent;border:1px solid var(--color-gold);color:var(--color-gold);padding:var(--space-xs) var(--space-xl);font-family:'DM Sans',sans-serif;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;">Close</button>
+      </div>
+    </div>
+    
   </div>
+</div>
 
 <script>
     (function(){
@@ -1297,11 +1313,20 @@ body.lightbox-open {
       allSlides.forEach(function(s){ entryObs.observe(s); });
 
       // ============================================================
-      // BOOKING FORM — Simple, no HTML replacement
+      // BOOKING FORM — Show/hide sections, no HTML destruction
       // ============================================================
       var checkoutModal = document.getElementById('checkoutModal');
+      var formSection = document.getElementById('checkoutFormSection');
+      var successSection = document.getElementById('checkoutSuccessSection');
+      var successName = document.getElementById('successName');
+      var successRoom = document.getElementById('successRoom');
+      var successPhone = document.getElementById('successPhone');
       
       document.getElementById('btnBookConfirm').addEventListener('click', function(){
+        // Reset to form view
+        formSection.style.display = 'block';
+        successSection.style.display = 'none';
+        
         var room = activeRoomInput.value, price = parseInt(activeRoomPriceInput.value)||85000;
         if(!room){ var fr=document.querySelector('.slide[data-section="rooms"]'); if(fr){ room=fr.getAttribute('data-room'); price=parseInt(fr.getAttribute('data-price'))||85000; } }
         var ci=checkinInput.value, co=checkoutInput.value, gu=document.getElementById('guests').value;
@@ -1364,16 +1389,28 @@ body.lightbox-open {
 
         fetch('https://formspree.io/f/xykrwkoy', { method:'POST', headers:{'Accept':'application/json'}, body:fd })
         .finally(function(){
-          checkoutModal.classList.remove('open');
-          collapseBar();
+          // Show success section, hide form
+          formSection.style.display = 'none';
+          successSection.style.display = 'block';
+          successName.textContent = n.split(' ')[0];
+          successRoom.textContent = room;
+          successPhone.style.display = phone ? 'block' : 'none';
+          
+          // Clear fields
           document.getElementById('guestName').value = '';
           document.getElementById('guestEmail').value = '';
           document.getElementById('guestPhone').value = '';
           document.getElementById('guestNotes').value = '';
-          alert('✨ Thank you, ' + n.split(' ')[0] + '!\n\nYour enquiry for ' + room + ' has been received.\nWe\'ll confirm within a few hours.');
+          
           btn.textContent = orig;
           btn.disabled = false;
         });
+      });
+      
+      // Close button on success section
+      document.getElementById('checkoutCloseSuccess').addEventListener('click', function(){
+        checkoutModal.classList.remove('open');
+        collapseBar();
       });
 
       document.addEventListener('keydown', function(e){
