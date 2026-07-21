@@ -223,7 +223,7 @@
     .section-indicator { display:none; }
     @media (min-width:768px) {
       .section-indicator {
-        display:flex; position:fixed; top:calc(var(--header-h) + var(--space-xs)); left:50%; transform:translateX(-50%);
+        display:none; position:fixed; top:calc(var(--header-h) + var(--space-xs)); left:50%; transform:translateX(-50%);
         z-index:var(--z-indicator); align-items:center; gap:var(--space-2xs);
         background:rgba(255,255,255,0.85); backdrop-filter:blur(var(--blur-card));
         padding:var(--space-2xs) var(--space-md); font-size:var(--text-3xs); text-transform:uppercase;
@@ -279,7 +279,7 @@
 
     /* ---------- About Slide ---------- */
     .slide[data-section="about"] { align-items:center; justify-content:center; }
-    .slide[data-section="about"]::after { background:linear-gradient(to top, rgba(28,26,24,0.55) 0%, rgba(28,26,24,0) 35%); }
+    .slide[data-section="about"]::after { background:linear-gradient(to top, rgba(28,26,24,0.55) 0%, rgba(28,26,24,0.55) 0%); }
     .slide[data-section="about"] .slide-section-badge { color:rgba(255,255,255,0.25); border-color:rgba(255,255,255,0.08); }
 
     .invitation {
