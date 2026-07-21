@@ -21,16 +21,13 @@ exports.handler = async (event) => {
   try {
     const filename = type === 'rooms' ? 'rooms.json' : 'images.json';
     const content = JSON.stringify(data, null, 2);
-    
-    // Use Netlify API to update the file
     const siteId = process.env.ULO_SITE_ID;
-const token = process.env.ULO_DEPLOY_TOKEN;
+    const token = process.env.ULO_DEPLOY_TOKEN;
     
     if (!siteId || !token) {
-      return { statusCode: 500, body: JSON.stringify({ error: 'Missing env vars SITE_ID or NETLIFY_TOKEN' }) };
+      return { statusCode: 500, body: JSON.stringify({ error: 'Missing ULO_SITE_ID or ULO_DEPLOY_TOKEN env vars' }) };
     }
 
-    // Create a new deploy with the updated file
     const response = await fetch(`https://api.netlify.com/api/v1/sites/${siteId}/deploys`, {
       method: 'POST',
       headers: {
@@ -49,18 +46,12 @@ const token = process.env.ULO_DEPLOY_TOKEN;
     });
 
     if (!response.ok) {
-      const err = await response.text();
-      throw new Error('Deploy failed: ' + err);
+      const errText = await response.text();
+      throw new Error('Deploy failed: ' + errText);
     }
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ success: true, file: filename })
-    };
+    return { statusCode: 200, body: JSON.stringify({ success: true, file: filename }) };
   } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.message })
-    };
+    return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
 };
