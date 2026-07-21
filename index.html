@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ulõ · Luxury Aparthotel Lagos</title>
+  <meta name="description" content="Experience the art of living in Lekki Phase 1. Ulõ Aparthotel blends African warmth with contemporary elegance." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Inter:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       ULÕ — UNIFIED DESIGN SYSTEM
+       ============================================================ */
+
+    /* ---------- Colors ---------- */
+    :root {
+      --color-bg: #f8f5ef;
+      --color-bg-light: #fcfaf7;
+      --color-text: #1c1a18;
+      --color-text-soft: #6b6158;
+      --color-gold: #d4a373;
+      --color-gold-dark: #b8935a;
+      --color-border: #e5dfd8;
+    }
+
+    /* ---------- Spacing scale (8-step) ---------- */
+    :root {
+      --space-3xs: 0.125rem;
+      --space-2xs: 0.25rem;
+      --space-xs: 0.5rem;
+      --space-sm: 0.75rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2rem;
+      --space-2xl: 3rem;
+      --space-3xl: 4rem;
+      --space-fluid-md: clamp(0.75rem, 1.5vw, 1.25rem);
+      --space-fluid-lg: clamp(1rem, 2.5vw, 2rem);
+      --space-fluid-xl: clamp(1.5rem, 4vw, 3rem);
+    }
+
+    /* ---------- Typography ---------- */
+    :root {
+      --text-3xs: 0.48rem;
+      --text-2xs: 0.48rem;
+      --text-xs: 0.55rem;
+      --text-sm: 0.65rem;
+      --text-base: 0.78rem;
+      --text-md: 0.9rem;
+      --text-lg: 1.3rem;
+      --text-xl: 2rem;
+      --text-2xl: 2.6rem;
+      --text-fluid-lg: clamp(1.3rem, 3vw + 0.3rem, 2.6rem);
+      --text-fluid-xl: clamp(2.2rem, 5vw + 0.5rem, 4.5rem);
+
+      --leading-tight: 1.1;
+      --leading-snug: 1.4;
+      --leading-normal: 1.75;
+      --leading-relaxed: 1.9;
+      --leading-loose: 2.1;
+
+      --track-tight: -0.02em;
+      --track-normal: 0.03em;
+      --track-wide: 0.1em;
+      --track-wider: 0.2em;
+      --track-widest: 0.3em;
+    }
+
+    /* ---------- Shadows ---------- */
+    :root {
+      --shadow-xs: 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-md: 0 8px 30px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+      --shadow-xl: 0 30px 80px rgba(0,0,0,0.2);
+      --shadow-gold: 0 4px 30px rgba(201,168,124,0.3);
+      --shadow-gold-lg: 0 0 60px rgba(212,163,115,0.5);
+    }
+
+    /* ---------- Border Radii ---------- */
+    :root {
+      --radius-none: 0;
+      --radius-sm: 2px;
+      --radius-md: 6px;
+      --radius-lg: 12px;
+      --radius-full: 50%;
+      --radius-pill: 9999px;
+    }
+
+    /* ---------- Z-Index ---------- */
+    :root {
+      --z-base: 0;
+      --z-content: 2;
+      --z-overlay: 10;
+      --z-nav: 90;
+      --z-indicator: 100;
+      --z-footer: 1000;
+      --z-menu: 1999;
+      --z-header: 2000;
+      --z-modal: 3000;
+      --z-preloader: 9999;
+    }
+
+    /* ---------- Backdrop Blur ---------- */
+    :root {
+      --blur-subtle: 4px;
+      --blur-card: 8px;
+      --blur-overlay: 14px;
+      --blur-glass: 20px;
+      --blur-heavy: 24px;
+    }
+
+    /* ---------- Animation System ---------- */
+    :root {
+      --dur-micro: 0.15s;
+      --dur-quick: 0.25s;
+      --dur-natural: 0.4s;
+      --dur-graceful: 0.6s;
+      --dur-cinematic: 1.2s;
+      --dur-atmospheric: 8s;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-smooth: ease;
+    }
+
+    /* ---------- Layout ---------- */
+    :root {
+      --header-h: 64px;
+      --footer-h: 64px;
+      --footer-expanded: 185px;
+    }
+
+    .reduce-blur .header,
+    .reduce-blur .bottom-bar,
+    .reduce-blur .invitation,
+    .reduce-blur .slide-text,
+    .reduce-blur .nav-menu,
+    .reduce-blur .section-indicator {
+      backdrop-filter: blur(4px);
+    }
+    .reduce-blur .slide-text {
+      background: rgba(0,0,0,0.3);
+    }
+    .reduce-blur .slide::before {
+      transition: none;
+    }
+
+    /* ---------- Reset ---------- */
+    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust:100%; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      overflow: hidden;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity var(--dur-graceful) var(--ease-smooth);
+    }
+    body.loaded { opacity:1; }
+
+    /* ---------- Preloader ---------- */
+    #preloader {
+      position:fixed; top:0; left:0; width:100%; height:100dvh;
+      background:var(--color-bg); z-index:var(--z-preloader);
+      display:flex; align-items:center; justify-content:center;
+      transition: opacity var(--dur-graceful) var(--ease-smooth), visibility var(--dur-graceful) var(--ease-smooth);
+    }
+    #preloader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+    #preloader.brief { transition: opacity var(--dur-quick) var(--ease-smooth), visibility var(--dur-quick) var(--ease-smooth); }
+    .loader-logo-img { height:80px; width:auto; animation:pulse 2.4s ease-in-out infinite; filter:invert(1); }
+    @keyframes pulse { 0%,100%{ opacity:0.4; transform:scale(1); } 50%{ opacity:1; transform:scale(1.03); } }
+
+    /* ---------- Header ---------- */
+    .header {
+      position:fixed; top:0; left:0; width:100%; height:var(--header-h);
+      padding:0 var(--space-fluid-xl);
+      display:flex; align-items:center; justify-content:space-between;
+      background:rgba(255,255,255,0.85); backdrop-filter:blur(var(--blur-glass)); -webkit-backdrop-filter:blur(var(--blur-glass));
+      z-index:var(--z-header); border-bottom:1px solid rgba(201,168,124,0.1);
+    }
+    .logo { display:flex; align-items:center; gap:var(--space-2xs); text-decoration:none; }
+    .logo img { height:40px; width:auto; filter:invert(1); }
+    .desktop-nav { display:none; gap:var(--space-sm); align-items:center; }
+    .desktop-nav a {
+      font-size:var(--text-3xs); text-transform:uppercase; letter-spacing:var(--track-wide);
+      color:var(--color-text-soft); text-decoration:none; cursor:pointer;
+      transition: color var(--dur-quick) var(--ease-smooth); font-weight:400; padding:var(--space-2xs) 0;
+      position:relative; white-space:nowrap;
+    }
+    .desktop-nav a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--color-gold); transition: width var(--dur-natural) var(--ease-out); }
+    .desktop-nav a:hover,.desktop-nav a.active { color:var(--color-gold); }
+    .desktop-nav a:hover::after,.desktop-nav a.active::after { width:100%; }
+    .desktop-nav a.active { font-weight:500; }
+
+    .nav-toggle { background:none; border:none; cursor:pointer; padding:var(--space-2xs) var(--space-xs); display:flex; flex-direction:column; gap:5px; transition: opacity var(--dur-quick) var(--ease-smooth); }
+    .nav-toggle:hover { opacity:0.7; }
+    .nav-toggle span { display:block; width:22px; height:1.5px; background:var(--color-text); transition: all var(--dur-quick) var(--ease-smooth); }
+    .nav-toggle.open span:nth-child(1){ transform:rotate(45deg) translate(4px,4px); }
+    .nav-toggle.open span:nth-child(2){ opacity:0; transform:translateX(-10px); }
+    .nav-toggle.open span:nth-child(3){ transform:rotate(-45deg) translate(4px,-4px); }
+
+    .nav-menu {
+      position:fixed; top:var(--header-h); right:0; width:320px; max-width:88vw;
+      height:calc(100dvh - var(--header-h)); background:rgba(255,255,255,0.97);
+      backdrop-filter:blur(var(--blur-heavy)); -webkit-backdrop-filter:blur(var(--blur-heavy));
+      padding:var(--space-xl) var(--space-lg); transform:translateX(100%);
+      transition: transform var(--dur-natural) var(--ease-out); z-index:var(--z-menu);
+      overflow-y:auto; border-left:1px solid rgba(201,168,124,0.08);
+      box-shadow:var(--shadow-sm);
+    }
+    .nav-menu.open { transform:translateX(0); }
+    .nav-menu h4 { font-weight:400; text-transform:uppercase; letter-spacing:var(--track-wider); font-size:var(--text-xs); color:var(--color-text-soft); margin-bottom:var(--space-lg); }
+    .nav-menu .section-label { font-size:var(--text-3xs); text-transform:uppercase; letter-spacing:var(--track-wide); color:var(--color-text-soft); padding:var(--space-xs) 0 var(--space-2xs); font-weight:500; opacity:0.4; }
+    .nav-menu a { display:block; padding:var(--space-xs) 0; font-size:var(--text-md); font-weight:400; color:var(--color-text); text-decoration:none; border-bottom:1px solid rgba(0,0,0,0.03); cursor:pointer; transition: all var(--dur-quick) var(--ease-smooth); }
+    .nav-menu a:hover { padding-left:var(--space-xs); color:var(--color-gold); }
+
+    /* ---------- Section Indicator ---------- */
+    .section-indicator { display:none; }
+    @media (min-width:768px) {
+      .section-indicator {
+        display:flex; position:fixed; top:calc(var(--header-h) + var(--space-xs)); left:50%; transform:translateX(-50%);
+        z-index:var(--z-indicator); align-items:center; gap:var(--space-2xs);
+        background:rgba(255,255,255,0.85); backdrop-filter:blur(var(--blur-card));
+        padding:var(--space-2xs) var(--space-md); font-size:var(--text-3xs); text-transform:uppercase;
+        letter-spacing:var(--track-wide); color:var(--color-text-soft);
+        border:1px solid rgba(0,0,0,0.04);
+        transition: opacity var(--dur-graceful) var(--ease-out), transform var(--dur-graceful) var(--ease-out);
+        opacity:0; transform:translateX(-50%) translateY(-10px);
+        pointer-events:none; font-weight:400;
+      }
+      .section-indicator.visible { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto; }
+      .section-indicator .section-name { color:var(--color-text); font-weight:500; }
+      .section-indicator .section-divider { opacity:0.2; }
+      .section-indicator .room-counter { background:var(--color-gold); color:#fff; padding:0.05rem var(--space-xs); font-size:var(--text-3xs); font-weight:500; letter-spacing:var(--track-tight); display:none; }
+    }
+
+    /* ---------- Scroll Wrapper ---------- */
+    .scroll-wrapper {
+      display:flex; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden;
+      height:calc(100dvh - var(--header-h)); margin-top:var(--header-h);
+      padding-bottom:var(--footer-h);
+      scroll-snap-type:x mandatory; scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch; gap:0;
+      overscroll-behavior:contain;
+      transition: padding-bottom var(--dur-natural) var(--ease-out);
+    }
+    .scroll-wrapper.expanded { padding-bottom:var(--footer-expanded); }
+    .scroll-wrapper::-webkit-scrollbar { display:none; }
+
+    /* ---------- Slides ---------- */
+    .slide {
+      flex:0 0 100vw; height:100%; scroll-snap-align:start; position:relative;
+      background-size:cover; background-position:center; background-color:#d9d4cc;
+      display:flex; align-items:flex-end; justify-content:flex-start; overflow:hidden;
+    }
+    .slide::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:inherit; background-size:cover; background-position:center; z-index:var(--z-base); transform:scale(1.05); transition: transform var(--dur-atmospheric) ease-out; }
+    .slide.slide-enter::before { transform:scale(1); }
+    .slide::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:60%; background:linear-gradient(to top, rgba(28,26,24,0.85) 0%, rgba(28,26,24,0) 65%); pointer-events:none; z-index:1; }
+    .slide[data-section="gallery"]::after { background:linear-gradient(to top, rgba(28,26,24,0.92) 0%, rgba(28,26,24,0.6) 100%); }
+    .slide-section-badge { display:none; }
+    @media (min-width:768px) {
+      .slide-section-badge {
+        display:block; position:absolute; top:var(--space-lg); right:var(--space-xl); z-index:var(--z-content);
+        font-size:var(--text-3xs); text-transform:uppercase; letter-spacing:var(--track-wider);
+        color:rgba(255,255,255,0.2); font-weight:300;
+        border:1px solid rgba(255,255,255,0.06); padding:var(--space-2xs) var(--space-sm);
+        pointer-events:none; backdrop-filter:blur(var(--blur-subtle)); opacity:0;
+      }
+      .slide.slide-enter .slide-section-badge { animation:badgeArrive var(--dur-graceful) var(--ease-out) 0.15s forwards; }
+      .slide[data-section="rooms"] .slide-section-badge { color:rgba(255,255,255,0.4); border-color:rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); }
+      .slide[data-section="rooms"] .slide-section-badge::before { content:'✦ '; }
+    }
+    @keyframes badgeArrive { from{opacity:0;transform:translateY(-8px);} to{opacity:1;transform:translateY(0);} }
+
+    /* ---------- About Slide ---------- */
+    .slide[data-section="about"] { align-items:center; justify-content:center; }
+    .slide[data-section="about"]::after { background:linear-gradient(to top, rgba(28,26,24,0.55) 0%, rgba(28,26,24,0) 35%); }
+    .slide[data-section="about"] .slide-section-badge { color:rgba(255,255,255,0.25); border-color:rgba(255,255,255,0.08); }
+
+    .invitation {
+      position:relative; z-index:var(--z-content); width:94%;
+      background:rgba(247,243,238,0.28);
+      backdrop-filter:blur(var(--blur-overlay)); -webkit-backdrop-filter:blur(var(--blur-overlay));
+      padding:var(--space-fluid-lg) var(--space-fluid-lg) var(--space-lg);
+      border:1px solid rgba(255,255,255,0.12);
+      margin:0; max-height:70dvh; overflow-y:auto;
+      will-change: transform;
+    }
+    .invitation::-webkit-scrollbar { width:3px; }
+    .invitation::-webkit-scrollbar-thumb { background:rgba(201,168,124,0.25); }
+    .invitation::-webkit-scrollbar-track { background:transparent; }
+    .invitation-inner { display:flex; flex-direction:column; gap:var(--space-lg); align-items:center; position:relative; z-index:1; }
+    .poem { flex:1; min-width:0; }
+    .ornament { font-family:'Playfair Display',serif; font-style:italic; font-size:var(--text-3xs); letter-spacing:var(--track-widest); color:var(--color-gold); opacity:0.6; margin-bottom:var(--space-sm); font-weight:300; display:flex; align-items:center; gap:var(--space-2xs); }
+    .ornament::before,.ornament::after { content:''; flex:1; height:1px; background:linear-gradient(to right, transparent, var(--color-gold), transparent); opacity:0.2; }
+    .poem-title { font-family:'DM Serif Display','Playfair Display',serif; font-size:var(--text-fluid-xl); font-weight:400; line-height:var(--leading-tight); color:var(--color-text); letter-spacing:var(--track-tight); margin-bottom:var(--space-2xs); font-style:italic; }
+    .poem-title .light { font-family:'Inter',sans-serif; font-style:normal; font-weight:200; font-size:0.32em; letter-spacing:var(--track-widest); text-transform:uppercase; color:var(--color-text-soft); display:block; margin-top:var(--space-2xs); opacity:0.6; }
+    .verse { font-family:'Inter',sans-serif; font-weight:300; font-size:var(--text-base); line-height:var(--leading-relaxed); color:var(--color-text-soft); max-width:100%; letter-spacing:var(--track-normal); }
+    .verse .stanza { display:block; margin-bottom:var(--space-sm); }
+    .verse .stanza:last-of-type { margin-bottom:var(--space-xs); }
+    .verse .dropcap { font-family:'DM Serif Display',serif; font-style:italic; font-size:1.3em; color:var(--color-text); }
+    .verse .golden { color:var(--color-gold); font-weight:400; font-family:'DM Serif Display',serif; font-style:italic; font-size:1.05em; }
+    .verse .small { font-size:0.7em; letter-spacing:var(--track-wide); text-transform:uppercase; opacity:0.5; font-weight:300; display:block; margin-top:var(--space-3xs); }
+    .verse hr { border:none; border-top:1px solid rgba(212,163,115,0.15); margin:var(--space-sm) 0; width:2.5rem; }
+    .verse strong { font-weight:500; color:var(--color-text); letter-spacing:var(--track-tight); }
+    .poem-meta { display:flex; gap:var(--space-md); font-size:var(--text-3xs); text-transform:uppercase; letter-spacing:var(--track-wider); color:var(--color-text-soft); font-weight:300; flex-wrap:wrap; border-top:1px solid rgba(201,168,124,0.1); padding-top:var(--space-sm); margin-top:var(--space-2xs); opacity:0.6; }
+    .poem-meta span { display:flex; align-items:center; gap:var(--space-2xs); }
+    .poem-meta span::before { content:'◆'; font-size:0.3rem; color:var(--color-gold); opacity:0.4; }
+    .explore-btn { display:inline-block; margin-top:var(--space-md); padding:var(--space-xs) var(--space-xl); background:var(--color-gold); color:#fff; text-decoration:none; font-family:'Inter',sans-serif; font-size:var(--text-xs); text-transform:uppercase; letter-spacing:var(--track-wider); font-weight:400; border:none; transition: all var(--dur-natural) var(--ease-out); cursor:pointer; }
+    .explore-btn:hover { background:var(--color-gold-dark); transform:scale(1.02); box-shadow:var(--shadow-gold); }
+    .portrait { flex:1; min-width:0; position:relative; width:100%; }
+    .portrait img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:var(--radius-md); box-shadow:var(--shadow-md); display:block; }
+    .signature { text-align:center; margin-top:var(--space-fluid-lg); font-family:'Playfair Display',serif; font-style:italic; font-size:var(--text-3xs); letter-spacing:var(--track-widest); color:var(--color-gold); opacity:0.3; position:relative; z-index:1; padding-top:var(--space-2xs); border-top:1px solid rgba(212,163,115,0.08); width:80%; margin-left:auto; margin-right:auto; }
+
+    /* ---------- Room Slide Text ---------- */
+    .slide[data-section="rooms"] .slide-text {
+      position:relative; z-index:var(--z-content); color:#fff;
+      text-shadow:0 2px 40px rgba(0,0,0,0.5);
+      background:rgba(0,0,0,0.3); backdrop-filter:blur(var(--blur-card)); -webkit-backdrop-filter:blur(var(--blur-card));
+      padding:var(--space-md) var(--space-md); margin:0 0 var(--space-sm) var(--space-sm);
+      border-left:2px solid rgba(255,255,255,0.1);
+      max-height:55dvh; overflow-y:auto;
+      max-width:94%;
+      pointer-events:auto; cursor:default;
+      margin-bottom:calc(var(--footer-h) + var(--space-sm));
+      opacity:0; transform:translateY(30px);
+      will-change: transform, opacity;
+    }
+    .slide[data-section="rooms"].slide-enter .slide-text { animation:blockArrive var(--dur-cinematic) var(--ease-out) 0.3s forwards; }
+    @keyframes blockArrive { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
+    .slide[data-section="rooms"] .slide-text .room-tags { opacity:0; transform:translateY(12px); }
+    .slide[data-section="rooms"].slide-enter .slide-text .room-tags { animation:tagArrive var(--dur-graceful) var(--ease-out) 0.7s forwards; }
+    @keyframes tagArrive { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+    .slide[data-section="rooms"] .slide-text::-webkit-scrollbar { width:2px; }
+    .slide[data-section="rooms"] .slide-text::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.2); }
+    .slide[data-section="rooms"] .slide-text .room-badge { display:inline-block; font-family:'Playfair Display',serif; font-style:italic; font-size:var(--text-xs); text-transform:uppercase; letter-spacing:var(--track-widest); background:rgba(255,255,255,0.08); padding:var(--space-3xs) var(--space-md); border:1px solid rgba(255,255,255,0.06); margin-bottom:var(--space-xs); font-weight:400; opacity:0.8; }
+    .slide[data-section="rooms"] .slide-text .room-title { font-family:'DM Sans',sans-serif; font-size:var(--text-fluid-lg); font-weight:500; letter-spacing:var(--track-normal); line-height:var(--leading-tight); margin-bottom:var(--space-2xs); }
+    .slide[data-section="rooms"] .slide-text .room-price { font-size:var(--text-xs); font-weight:300; letter-spacing:var(--track-wider); text-transform:uppercase; opacity:0.6; margin-bottom:var(--space-2xs); }
+    .slide[data-section="rooms"] .slide-text .room-desc { font-size:var(--text-base); font-weight:300; opacity:0.88; max-width:100%; line-height:var(--leading-normal); margin-bottom:var(--space-xs); letter-spacing:var(--track-normal); }
+    .slide[data-section="rooms"] .slide-text .room-tags { display:flex; flex-wrap:wrap; gap:var(--space-2xs); margin-bottom:var(--space-3xs); }
+    .slide[data-section="rooms"] .slide-text .room-tags span { background:rgba(255,255,255,0.06); backdrop-filter:blur(var(--blur-subtle)); padding:var(--space-3xs) var(--space-sm); font-size:var(--text-3xs); text-transform:uppercase; letter-spacing:var(--track-wide); border:1px solid rgba(255,255,255,0.04); font-weight:300; }
+    .slide[data-section="rooms"] .slide-text .room-meta { display:flex; gap:var(--space-sm); margin-top:var(--space-xs); font-size:var(--text-3xs); text-transform:uppercase; letter-spacing:var(--track-wide); opacity:0.5; font-weight:300; flex-wrap:wrap; }
+    .slide[data-section="rooms"] .slide-text .room-meta span { display:flex; align-items:center; gap:var(--space-2xs); }
+    .slide[data-section="rooms"] .slide-text .tap-hint { display:inline-block; margin-top:var(--space-xs); font-size:var(--text-3xs); text-transform:uppercase; letter-spacing:var(--track-wide); color:rgba(255,255,255,0.35); border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:var(--space-3xs); transition: all var(--dur-natural) var(--ease-out); cursor:pointer; }
+    .slide[data-section="rooms"] .slide-text .tap-hint:hover { color:#fff; border-bottom-color:rgba(255,255,255,0.5); }
+    .btn-book-room { display:inline-block; margin-top:var(--space-sm); background:var(--color-gold); color:#fff; border:none; padding:var(--space-xs) var(--space-2xl); font-size:var(--text-sm); font-weight:500; letter-spacing:var(--track-wide); cursor:pointer; transition: all var(--dur-natural) var(--ease-out); font-family:'DM Sans',sans-serif; text-transform:uppercase; }
+    .btn-book-room:hover { background:var(--color-gold-dark); transform:scale(1.02); box-shadow:var(--shadow-gold); }
+    .btn-book-room:active { transform:scale(0.97); }
+
+    /* ---------- Gallery Slide ---------- */
+    .slide[data-section="gallery"] { background:#1c1a18; align-items:flex-start; justify-content:center; overflow-y:auto; overflow-x:hidden; }
+    .slide[data-section="gallery"]::before { display:none; }
+    .slide[data-section="gallery"] .slide-section-badge { display:none; }
+    .gallery-container { position:relative; z-index:var(--z-content); width:100%; padding:var(--space-fluid-lg) var(--space-fluid-lg); padding-bottom:calc(var(--footer-h) + var(--space-xl)); margin-top:auto; }
+    .gallery-container h3 { font-family:'Playfair Display',serif; font-style:italic; font-size:var(--text-xl); color:#fff; font-weight:400; letter-spacing:var(--track-normal); margin-bottom:var(--space-3xs); opacity:0.9; }
+    .gallery-container .gallery-sub { font-size:var(--text-3xs); text-transform:uppercase; letter-spacing:var(--track-wider); color:rgba(255,255,255,0.4); margin-bottom:var(--space-md); font-weight:300; }
+    .masonry-grid { column-count:2; column-gap:var(--space-xs); }
+    .masonry-grid .masonry-item { break-inside:avoid; margin-bottom:var(--space-xs); position:relative; cursor:pointer; overflow:hidden; transition: transform var(--dur-quick) var(--ease-smooth); }
+    .masonry-grid .masonry-item:hover { transform:scale(1.015); }
+    .masonry-grid .masonry-item img,.masonry-grid .masonry-item video { width:100%; height:auto; display:block; }
+    .masonry-grid .video-tile { position:relative; }
+    .masonry-grid .video-tile video { object-fit:cover; filter:brightness(0.7); }
+    .masonry-grid .video-tile .play-overlay { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:clamp(40px, 8vw, 65px); height:clamp(40px, 8vw, 65px); background:rgba(212,163,115,0.85); border-radius:var(--radius-full); border:none; color:#fff; font-size:clamp(1rem, 2vw, 1.6rem); cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(var(--blur-subtle)); transition: all var(--dur-quick) var(--ease-smooth); box-shadow:var(--shadow-gold); }
+    .masonry-grid .video-tile .play-overlay:hover { background:var(--color-gold); transform:translate(-50%,-50%) scale(1.08); }
+    .masonry-grid .video-tile .play-overlay.hidden { opacity:0; pointer-events:none; }
+    .gallery-footer { text-align:center; padding:var(--space-lg) 0 var(--space-xs); font-size:var(--text-3xs); text-transform:uppercase; letter-spacing:var(--track-wider); color:rgba(255,255,255,0.25); font-weight:300; }
+    .gallery-footer a { color:rgba(255,255,255,0.4); text-decoration:none; transition: color var(--dur-quick) var(--ease-smooth); }
+    .gallery-footer a:hover { color:var(--color-gold); }
+
+    /* ---------- Lightbox ---------- */
+    .lightbox { position:absolute; top:0; left:0; width:100%; height:100%; background-size:cover; background-position:center; z-index:var(--z-overlay); display:none; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-sm); }
+    .lightbox::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:inherit; filter:blur(25px) brightness(0.3); transform:scale(1.1); z-index:-1; }
+    .lightbox::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:-1; }
+    .lightbox.open { display:flex; touch-action: none;}
+    .lightbox-close { position:absolute; top:var(--space-md); right:var(--space-md); background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); width:40px; height:40px; border-radius:var(--radius-full); font-size:var(--text-md); cursor:pointer; color:#fff; z-index:12; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(var(--blur-card)); transition: all var(--dur-natural) var(--ease-out); }
+    .lightbox-close:hover { background:rgba(255,255,255,0.15); transform:rotate(90deg); }
+    .lightbox-gallery { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:0; padding:0; width:100%; height:100%; align-items:center; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; }
+    .lightbox-gallery::-webkit-scrollbar { height:3px; }
+    .lightbox-gallery::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.15); }
+    .lightbox-gallery img { flex:0 0 calc(100% - 16px); height:65%; max-height:75dvh; object-fit:contain; scroll-snap-align:center; margin:0 var(--space-xs); box-shadow:var(--shadow-lg); transition: transform var(--dur-natural) var(--ease-out); }
+    .lightbox-gallery img:hover { transform:scale(1.02); }
+    .lightbox-thumbs { display:none; }
+    .lightbox-counter { position:absolute; bottom:var(--space-md); left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.4); font-size:var(--text-xs); letter-spacing:var(--track-wide); text-transform:uppercase; z-index:12; font-weight:300; }
+    .lightbox.no-counter .lightbox-counter { display:none; }
+    .lightbox.gallery-lightbox .lightbox-counter,.lightbox.gallery-lightbox .lightbox-thumbs { display:none; }
+    body.lightbox-open .swipe-nav,
+body.lightbox-open .scroll-snap-indicator,
+body.lightbox-open .section-indicator { 
+  display: none !important; 
+}
+
+body.lightbox-open {
+  overflow: hidden;
+  touch-action: none;
+}
+
+    /* ---------- Swipe Nav ---------- */
+    .swipe-nav {
+      position: fixed;
+      bottom: calc(var(--footer-h) + var(--space-sm));
+      z-index: var(--z-nav);
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      pointer-events: none;
+      transition: bottom var(--dur-natural) var(--ease-out), opacity var(--dur-quick) var(--ease-smooth);
+    }
+
+    .bottom-bar.expanded ~ .swipe-nav {
+      bottom: calc(var(--footer-expanded) + var(--space-sm));
+    }
+
+    .swipe-nav.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .swipe-nav.swipe-left {
+      left: clamp(1rem, 3vw, 4vw);
+    }
+
+    .swipe-nav.swipe-right {
+      right: clamp(1rem, 3vw, 4vw);
+    }
+
+    .swipe-nav .arrow-btn {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(var(--blur-card));
+      -webkit-backdrop-filter: blur(var(--blur-card));
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      width: 38px;
+      height: 19px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--dur-natural) var(--ease-out);
+      font-size: var(--text-md);
+      color: var(--color-text-soft);
+      user-select: none;
+      pointer-events: auto;
+      text-decoration: none;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .swipe-nav .arrow-btn:hover {
+      background: var(--color-gold);
+      color: #fff;
+      border-color: var(--color-gold);
+      box-shadow: var(--shadow-gold);
+      transform: scale(1.05);
+    }
+
+    .swipe-nav .arrow-btn:active {
+      transform: scale(0.95);
+    }
+
+    .swipe-nav .nav-label {
+      font-size: var(--text-3xs);
+      text-transform: uppercase;
+      letter-spacing: var(--track-wide);
+      color: var(--color-text-soft);
+      font-weight: 400;
+      pointer-events: auto;
+      white-space: nowrap;
+      padding: var(--space-2xs) var(--space-sm);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(var(--blur-card));
+      -webkit-backdrop-filter: blur(var(--blur-card));
+      border-radius: 50px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--dur-natural) var(--ease-out);
+    }
+
+    .swipe-nav .nav-label:hover {
+      background: var(--color-gold);
+      color: #fff;
+      border-color: var(--color-gold);
+    }
+
+    @media (min-width: 768px) {
+      .swipe-nav .arrow-btn {
+        width: 42px;
+        height: 42px;
+        font-size: var(--text-lg);
+      }
+      .swipe-nav .nav-label {
+        font-size: var(--text-xs);
+        padding: var(--space-xs) var(--space-md);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .swipe-nav {
+        bottom: calc(var(--footer-h) + var(--space-lg));
+      }
+      .bottom-bar.expanded ~ .swipe-nav {
+        bottom: calc(var(--footer-expanded) + var(--space-lg));
+      }
+    }
+
+    /* ---------- Snap Indicator ---------- */
+    .scroll-snap-indicator { position:fixed; bottom:calc(var(--footer-h) + var(--space-xs)); left:50%; transform:translateX(-50%); display:flex; gap:var(--space-2xs); z-index:var(--z-nav); transition: bottom var(--dur-natural) var(--ease-out); }
+    .bottom-bar.expanded ~ .scroll-snap-indicator { bottom:calc(var(--footer-expanded) + var(--space-xs)); }
+    .scroll-snap-indicator .dot { width:4px; height:4px; border-radius:var(--radius-full); background:var(--color-text-soft); transition: all var(--dur-natural) var(--ease-out); cursor:pointer; pointer-events:auto; }
+    .scroll-snap-indicator .dot.active { background:var(--color-gold); transform:scale(1.5); }
+    .scroll-snap-indicator .dot:hover { transform:scale(1.2); }
+
+    /* ---------- Bottom Bar ---------- */
+    .bottom-bar { position:fixed; bottom:0; left:0; width:100%; height:var(--footer-h); background:rgba(255,255,255,0.92); backdrop-filter:blur(var(--blur-heavy)); -webkit-backdrop-filter:blur(var(--blur-heavy)); display:flex; flex-direction:column; justify-content:flex-end; z-index:var(--z-footer); transition: height var(--dur-natural) var(--ease-out); overflow:hidden; box-shadow:0 -4px 30px rgba(0,0,0,0.03); border-top:1px solid rgba(201,168,124,0.08); }
+    .bottom-bar.expanded { height:var(--footer-expanded); }
+    .booking-engine { display:grid; grid-template-rows:0fr; transition: grid-template-rows var(--dur-natural) var(--ease-out); width:100%; }
+    .bottom-bar.expanded .booking-engine { grid-template-rows:1fr; }
+    .booking-engine-inner { overflow:hidden; display:flex; flex-direction:column; align-items:center; gap:var(--space-sm); padding:0 3vw; }
+    .bottom-bar.expanded .booking-engine-inner { padding:var(--space-sm) 3vw var(--space-sm); border-bottom:1px solid rgba(201,168,124,0.15); }
+    .booking-engine .booking-row { display:flex; align-items:flex-end; justify-content:center; flex-wrap:wrap; gap:var(--space-md); }
+  .booking-engine .booking-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: var(--text-3xs);
+  text-transform: uppercase;
+  letter-spacing: var(--track-wide);
+  color: var(--color-text-soft);
+  font-weight: 500;
+  flex: 0 1 auto;
+}
+
+.booking-engine .booking-item label {
+  margin-bottom: var(--space-2xs);
+  opacity: 0.6;
+  text-align: center;
+}
+
+.booking-engine .booking-item input,
+.booking-engine .booking-item select {
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--color-border);
+  border-radius: 0;
+  padding: var(--space-2xs) 0;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  outline: none;
+  width: 70px;
+  text-align: center;
+  transition: border-color var(--dur-natural) var(--ease-out);
+  font-weight: 400;
+  font-family: 'Inter', sans-serif;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.booking-engine .booking-item input[type="date"] {
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  letter-spacing: var(--track-tight);
+  min-width: 70px;
+  text-align: center;
+}
+
+.booking-engine .booking-item select {
+  text-align: center;
+  text-align-last: center;
+}
+    .btn-book-confirm { background:var(--color-gold); color:#fff; border:none; padding:var(--space-2xs) var(--space-fluid-lg); font-size:var(--text-xs); font-weight:500; letter-spacing:var(--track-wide); cursor:pointer; transition: all var(--dur-natural) var(--ease-out); font-family:'DM Sans',sans-serif; text-transform:uppercase; white-space:nowrap; margin-top:var(--space-xs); }
+    .btn-book-confirm:hover { background:var(--color-gold-dark); transform:scale(1.02); box-shadow:var(--shadow-gold); }
+    .btn-book-confirm:active { transform:scale(0.97); }
+    .btn-close-engine { background:transparent; border:1px solid var(--color-gold); color:var(--color-gold); padding:var(--space-2xs) var(--space-lg); font-size:var(--text-xs); font-weight:500; letter-spacing:var(--track-wide); cursor:pointer; transition: all var(--dur-quick) var(--ease-smooth); font-family:'DM Sans',sans-serif; text-transform:uppercase; white-space:nowrap; margin-top:var(--space-xs); }
+    .btn-close-engine:hover { background:var(--color-gold); color:#fff; }
+    .footer-info { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:var(--space-2xs) var(--space-xs); height:var(--footer-h); padding:0 2vw; font-size:var(--text-2xs); text-transform:uppercase; letter-spacing:var(--track-wide); color:var(--color-text-soft); font-weight:400; flex-shrink:0; border-top:1px solid transparent; transition: border-color var(--dur-natural) var(--ease-out); }
+    .bottom-bar.expanded .footer-info { border-top-color:var(--color-border); }
+    .footer-info a { color:var(--color-text-soft); text-decoration:none; border-bottom:1px solid transparent; padding-bottom:var(--space-3xs); transition: color var(--dur-quick) var(--ease-smooth), border-color var(--dur-quick) var(--ease-smooth); white-space:nowrap; display:flex; align-items:center; gap:var(--space-2xs); }
+    .footer-info a:hover { color:var(--color-gold); border-bottom-color:var(--color-gold); }
+    .footer-divider { width:1px; height:12px; background:var(--color-border); display:block; }
+
+    /* ---------- Checkout Modal ---------- */
+    .checkout-overlay { position:fixed; top:0; left:0; width:100%; height:100dvh; background:rgba(0,0,0,0.55); backdrop-filter:blur(var(--blur-overlay)); -webkit-backdrop-filter:blur(var(--blur-overlay)); z-index:var(--z-modal); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition: opacity var(--dur-graceful) var(--ease-out); padding:var(--space-md); }
+    .checkout-overlay.open { opacity:1; pointer-events:auto; }
+    .checkout-card { background:var(--color-bg-light); max-width:480px; width:100%; padding:var(--space-xl); transform:scale(0.92) translateY(25px); transition: transform var(--dur-graceful) var(--ease-out); box-shadow:var(--shadow-xl); max-height:90dvh; overflow-y:auto; border:1px solid rgba(201,168,124,0.1); }
+    .checkout-overlay.open .checkout-card { transform:scale(1) translateY(0); }
+    .checkout-card h2 { font-family:'DM Sans',sans-serif; font-size:var(--text-lg); font-weight:500; margin-bottom:var(--space-2xs); letter-spacing:var(--track-tight); }
+    .checkout-card .sub { color:var(--color-text-soft); font-size:var(--text-sm); margin-bottom:var(--space-lg); font-weight:300; }
+    .checkout-card .summary-item { display:flex; justify-content:space-between; padding:var(--space-xs) 0; border-bottom:1px solid rgba(0,0,0,0.04); font-size:var(--text-base); font-weight:400; }
+    .checkout-card .summary-item.total { border-top:2px solid var(--color-gold); border-bottom:none; padding-top:var(--space-sm); margin-top:var(--space-2xs); font-weight:500; font-size:var(--text-md); color:var(--color-text); }
+    .checkout-card .form-group { margin-top:var(--space-md); }
+    .checkout-card .form-group label { display:block; font-size:var(--text-xs); text-transform:uppercase; letter-spacing:var(--track-wide); color:var(--color-text-soft); margin-bottom:var(--space-3xs); font-weight:500; }
+    .checkout-card .form-group input { width:100%; padding:var(--space-xs) 0; border:none; border-bottom:1.5px solid var(--color-border); font-size:var(--text-base); outline:none; background:transparent; transition: border-color var(--dur-quick) var(--ease-smooth); }
+    .checkout-card .form-group input:focus { border-bottom-color:var(--color-gold); border-bottom-width:2px; }
+    .checkout-actions { display:flex; gap:var(--space-xs); margin-top:var(--space-lg); }
+    .checkout-actions button { flex:1; padding:var(--space-xs); border:none; font-size:var(--text-sm); font-weight:500; cursor:pointer; transition: all var(--dur-quick) var(--ease-smooth); letter-spacing:var(--track-wide); text-transform:uppercase; }
+    .checkout-actions .btn-confirm { background:var(--color-gold); color:#fff; }
+    .checkout-actions .btn-confirm:hover { background:var(--color-gold-dark); transform:scale(1.02); }
+    .checkout-actions .btn-cancel { background:var(--color-border); color:var(--color-text); }
+    .checkout-actions .btn-cancel:hover { background:#d5cec5; }
+
+    /* ============================================================
+       TABLET
+       ============================================================ */
+    @media (min-width:768px) {
+      :root { --header-h:68px; --footer-h:68px; }
+      .loader-logo-img { height:100px; }
+      .nav-menu { width:340px; padding:var(--space-2xl) var(--space-xl); }
+      .invitation { width:90%; padding:var(--space-2xl) var(--space-2xl) var(--space-xl); }
+      .invitation-inner { flex-direction:row; gap:var(--space-2xl); }
+      .portrait img { aspect-ratio:4/3; }
+      .verse { max-width:28rem; line-height:var(--leading-loose); }
+      .slide[data-section="rooms"] { justify-content:flex-start; align-items:flex-end; }
+      .slide[data-section="rooms"] .slide-text { padding:var(--space-lg) var(--space-xl); margin:0 0 var(--space-lg) var(--space-lg); max-width:55%; max-height:60dvh; margin-bottom:calc(var(--footer-h) + var(--space-md)); }
+      .btn-book-room { padding:var(--space-2xs) var(--space-fluid-lg); font-size:var(--text-xs); }
+      .booking-engine .booking-item input,.booking-engine .booking-item select { width:90px; min-width:90px; font-size:var(--text-sm); }
+      .btn-book-confirm { padding:var(--space-2xs) var(--space-xl); font-size:var(--text-xs); }
+      .masonry-grid { column-count:3; column-gap:var(--space-sm); }
+      .masonry-grid .masonry-item { margin-bottom:var(--space-sm); }
+      .gallery-container { padding:clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 3rem); padding-bottom:calc(var(--footer-h) + 2.5rem); }
+      .lightbox-thumbs { display:flex; position:absolute; bottom:var(--space-2xl); left:50%; transform:translateX(-50%); gap:var(--space-2xs); z-index:11; padding:var(--space-2xs) var(--space-xs); background:rgba(0,0,0,0.3); backdrop-filter:blur(var(--blur-card)); border:1px solid rgba(255,255,255,0.06); }
+      .lightbox.gallery-lightbox .lightbox-thumbs { display:none; }
+      .lightbox-thumbs .thumb { width:45px; height:30px; object-fit:cover; cursor:pointer; border:1px solid transparent; transition: all var(--dur-quick) var(--ease-smooth); opacity:0.4; }
+      .lightbox-thumbs .thumb:hover,.lightbox-thumbs .thumb.active { opacity:1; border-color:rgba(255,255,255,0.3); }
+      .lightbox-gallery img { height:80%; max-height:80dvh; }
+      .lightbox-counter { bottom:var(--space-xl); }
+    }
+
+    /* ============================================================
+       DESKTOP
+       ============================================================ */
+    @media (min-width:1024px) {
+      :root { --header-h:72px; --footer-h:72px; }
+      .desktop-nav { display:flex; }
+      .nav-toggle { display:none; }
+      .loader-logo-img { height:120px; }
+      .invitation { width:88%; max-width:1100px; padding:var(--space-3xl) var(--space-3xl) var(--space-2xl); }
+      .invitation-inner { gap:var(--space-3xl); }
+      .portrait img { aspect-ratio:4/3; }
+      .verse { font-size:var(--text-md); line-height:var(--leading-loose); }
+      .slide[data-section="rooms"] { justify-content:center; align-items:flex-end; }
+      .slide[data-section="rooms"] .slide-text { max-width:720px; width:48%; margin:0 auto var(--space-2xl) auto; padding:var(--space-2xl) var(--space-2xl); max-height:65dvh; margin-bottom:calc(var(--footer-h) + var(--space-lg)); }
+      .slide[data-section="rooms"] .slide-text .room-title { font-size:var(--text-2xl); }
+      .slide[data-section="rooms"] .slide-text .room-desc { font-size:var(--text-md); max-width:100%; }
+      .btn-book-room { padding:var(--space-xs) var(--space-2xl); font-size:var(--text-sm); }
+      .booking-engine .booking-item input,.booking-engine .booking-item select { width:110px; min-width:110px; font-size:var(--text-sm); }
+      .booking-engine .booking-item input[type="date"] { font-size:var(--text-xs); }
+      .btn-book-confirm { padding:var(--space-xs) var(--space-2xl); font-size:var(--text-sm); }
+      .scroll-snap-indicator { bottom:calc(var(--footer-h) + var(--space-sm)); }
+      .bottom-bar.expanded ~ .scroll-snap-indicator { bottom:calc(var(--footer-expanded) + var(--space-sm)); }
+      .masonry-grid { column-count:4; column-gap:var(--space-md); }
+      .masonry-grid .masonry-item { margin-bottom:var(--space-md); }
+      .gallery-container { padding:clamp(2rem, 4vw, 3rem) clamp(2rem, 4vw, 4rem); padding-bottom:calc(var(--footer-h) + 3rem); }
+    }
+
+    @media (max-width:480px) {
+      .btn-book-room { padding:var(--space-2xs) var(--space-lg); font-size:var(--text-xs); }
+    }
+
+    @media (pointer:coarse) { .scroll-wrapper { scroll-snap-type:x mandatory; } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; } .header,.slide-text,.bottom-bar,.invitation { backdrop-filter:blur(var(--blur-card)); } }
+    button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible { outline:2px solid var(--color-gold); outline-offset:2px; }
+    ::selection { background:var(--color-gold); color:#fff; }
+  </style>
+</head>
+<body>
+  <div id="preloader" role="status" aria-label="Loading">
+    <img class="loader-logo-img" src="https://uloresidency.com/wp-content/uploads/2025/01/cropped-Ulo-White-300x300.png" alt="Ulõ" />
+  </div>
+
+  <header class="header" role="banner">
+    <a href="#about" class="logo" aria-label="Ulõ Aparthotel Home">
+      <img src="https://uloresidency.com/wp-content/uploads/2025/01/cropped-Ulo-White-300x300.png" alt="Ulõ" />
+    </a>
+    <nav class="desktop-nav" id="desktopNav" aria-label="Room navigation">
+      <a href="#about" class="active">About</a>
+      <a href="#comfort">Comfort</a>
+      <a href="#super">Super</a>
+      <a href="#studio">Studio</a>
+      <a href="#oneroom">1 Bed</a>
+      <a href="#poolview">Pool</a>
+      <a href="#twobed">2 Bed</a>
+      <a href="#gallery">Gallery</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <nav class="nav-menu" id="navMenu" role="navigation" aria-label="Main navigation">
+    <h4>Come on in</h4>
+    <div class="section-label">— Discover</div>
+    <a href="#about">About Ulõ</a>
+    <div class="section-label">— The rooms</div>
+    <a href="#comfort">Comfort Zone</a>
+    <a href="#super">Super Comfort</a>
+    <a href="#studio">Studio Room</a>
+    <a href="#oneroom">One Bedroom</a>
+    <a href="#poolview">Pool View</a>
+    <a href="#twobed">Two Bedroom</a>
+    <div class="section-label">— Explore</div>
+    <a href="#gallery">Gallery</a>
+  </nav>
+
+  <div class="section-indicator" id="sectionIndicator">
+    <span class="section-name">The vibe</span>
+    <span class="section-divider">|</span>
+    <span class="section-sub">Ulõ Residence</span>
+    <span class="room-counter" id="roomCounter"></span>
+  </div>
+
+  <div class="swipe-nav swipe-left" id="swipeLeftNav">
+    <a href="#about" class="arrow-btn" id="prevSlideBtn" aria-label="Previous slide">←</a>
+    <a href="#comfort" class="nav-label" id="prevSlideLabel"></a>
+  </div>
+  <div class="swipe-nav swipe-right" id="swipeRightNav">
+    <a href="#comfort" class="nav-label" id="nextSlideLabel"></a>
+    <a href="#comfort" class="arrow-btn" id="nextSlideBtn" aria-label="Next slide">→</a>
+  </div>
+
+  <div class="scroll-snap-indicator" id="snapIndicator">
+    <span class="dot active" data-index="0"></span>
+    <span class="dot" data-index="1"></span>
+    <span class="dot" data-index="2"></span>
+    <span class="dot" data-index="3"></span>
+    <span class="dot" data-index="4"></span>
+    <span class="dot" data-index="5"></span>
+    <span class="dot" data-index="6"></span>
+    <span class="dot" data-index="7"></span>
+  </div>
+
+  <div class="scroll-wrapper" id="scrollWrapper" role="main" aria-label="Room gallery">
+
+    <div class="slide" id="about" data-index="0" data-section="about" style="background-image:url('https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-nsibidi.heif')" tabindex="0" aria-label="About Ulõ">
+      <div class="slide-section-badge">The vibe</div>
+      <div class="invitation">
+        <div class="invitation-inner">
+          <div class="poem">
+            <div class="ornament">✧  ✧  ✧</div>
+            <h1 class="poem-title">Ulõ<span class="light">means Home</span></h1><br>
+            <div class="verse">
+              <span class="stanza"><span class="dropcap">N</span>estled in vibrant Lekki Phase 1,<br />Ulõ Hotel is the epitome of modern luxury<br />and intimate hospitality.<br />A tranquil escape for the discerning traveller.</span>
+           <br>   <span class="stanza"><span class="golden">Every room</span> is thoughtfully designed<br />to exude charm and elegance.<br />Contemporary furnishings, plush bedding,<br />and cutting-edge amenities —<br />high-speed Wi‑Fi, smart TVs, and more.</span>
+              <hr /><br>
+              <span class="stanza"><strong>Strategically located</strong> in the heart of Lekki Phase 1,<br />we offer easy access to the Lekki Conservation Centre,<br />Admiralty Way's finest restaurants,<br />and the city's best entertainment.</span>
+             <br> <span class="stanza"><span class="golden">Choose Ulõ</span> for an unforgettable stay,<br />where boutique luxury meets personalised hospitality.<br />Ideal for couples, solo travellers, and small groups —<br />a serene retreat amid the lively energy of Lagos.</span>
+              <hr /> <br>
+              <span class="stanza"><strong>Rooms &amp; Suites</strong><br />Studio · Comfort Zone · Super Comfort Zone<br />One‑Bedroom Apartment · One‑Bedroom Pool View · Two‑Bedroom Apartment</span>
+              <span class="stanza"><span class="golden">Valentine Offer</span><br />Romantic Staycation Package · Sanctuary Studio<br />Spacious One‑Bedroom Apartment<br /><span class="small">— complimentary wine &amp; dreamy setup</span></span>
+              <span class="stanza"><strong>Facilities</strong><br />Free Wi‑Fi · Daily Housekeeping · Complimentary Toiletries<br />Smart Key Access · Luggage Storage · Room Service · Daily Disinfection</span>
+            </div>
+            <div class="poem-meta">
+              <span>10 Rooms</span><span>5 Apartments</span><span>24/7 Service</span><span>1 Pool</span><span>∞ Stories</span>
+            </div>
+          </div>
+        </div>
+        <div class="signature">❧  stay a while  ❧</div>
+      </div>
+    </div>
+
+    <div class="slide" id="comfort" data-index="1" data-section="rooms" data-room="Comfort Zone" data-price="85000" style="background-image:url('https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_7.jpg')" tabindex="0" aria-label="View Comfort Zone room">
+      <div class="slide-section-badge">The rooms</div>
+      <div class="lightbox" id="lightbox-comfort" data-room="comfort" style="background-image:url('https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1600&h=1000&fit=crop&crop=center')" role="dialog" aria-modal="true" aria-label="Comfort Zone gallery">
+        <button class="lightbox-close" data-lightbox="comfort" aria-label="Close gallery">✕</button>
+        <div class="lightbox-gallery"></div>
+        <div class="lightbox-thumbs"></div>
+        <div class="lightbox-counter"></div>
+      </div>
+      <div class="slide-text">
+        <div class="room-badge">Classic Room</div>
+        <div class="room-title">Comfort Zone</div>
+        <div class="room-price">₦85,000 / night</div>
+        <div class="room-desc">A warm, well-proportioned room centred on a queen bed with premium linens. A dedicated workspace and smart TV make it equally suited to business or leisure — while soundproof windows keep the city's rhythm at a pleasant distance.</div>
+        <div class="room-tags"><span>queen bed</span><span>smart TV</span><span>workspace</span><span>air conditioning</span><span>soundproof</span></div>
+        <div class="room-meta"><span>✦ 30 m²</span><span>✦ up to 3 guests</span><span>✦ city view</span></div>
+        <span class="tap-hint" data-lightbox="comfort">Take a peek inside</span>
+        <button class="btn-book-room" data-room="Comfort Zone" data-price="85000">Check availability</button>
+      </div>
+    </div>
+
+    <div class="slide" id="super" data-index="2" data-section="rooms" data-room="Super Comfort" data-price="110000" style="background-image:url('https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-accents_2.jpg')" tabindex="0" aria-label="View Super Comfort room">
+      <div class="slide-section-badge">The rooms</div>
+      <div class="lightbox" id="lightbox-super" data-room="super" style="background-image:url('https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=1600&h=1000&fit=crop&crop=center')" role="dialog" aria-modal="true" aria-label="Super Comfort gallery">
+        <button class="lightbox-close" data-lightbox="super" aria-label="Close gallery">✕</button>
+        <div class="lightbox-gallery"></div>
+        <div class="lightbox-thumbs"></div>
+        <div class="lightbox-counter"></div>
+      </div>
+      <div class="slide-text">
+        <div class="room-badge">Luxury Room</div>
+        <div class="room-title">Super Comfort</div>
+        <div class="room-price">₦110,000 / night</div>
+        <div class="room-desc">An elevated stay with a king bed, deep soaking tub, and separate rain shower. Soft bathrobes, a well-stocked minibar, and terrace views turn an ordinary evening into a ritual.</div>
+        <div class="room-tags"><span>king bed</span><span>minibar</span><span>rain shower</span><span>soaking tub</span><span>bathrobe</span><span>terrace view</span></div>
+        <div class="room-meta"><span>✦ 35 m²</span><span>✦ up to 3 guests</span><span>✦ premium toiletries</span></div>
+        <span class="tap-hint" data-lightbox="super">Take a peek inside</span>
+        <button class="btn-book-room" data-room="Super Comfort" data-price="110000">Check availability</button>
+      </div>
+    </div>
+
+    <div class="slide" id="studio" data-index="3" data-section="rooms" data-room="Studio Sanctuary" data-price="150000" style="background-image:url('https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-accents_3.jpg')" tabindex="0" aria-label="View Studio Sanctuary">
+      <div class="slide-section-badge">The rooms</div>
+      <div class="lightbox" id="lightbox-studio" data-room="studio" style="background-image:url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1600&h=1000&fit=crop&crop=center')" role="dialog" aria-modal="true" aria-label="Studio Sanctuary gallery">
+        <button class="lightbox-close" data-lightbox="studio" aria-label="Close gallery">✕</button>
+        <div class="lightbox-gallery"></div>
+        <div class="lightbox-thumbs"></div>
+        <div class="lightbox-counter"></div>
+      </div>
+      <div class="slide-text">
+        <div class="room-badge">Modern Studio</div>
+        <div class="room-title">Studio Sanctuary</div>
+        <div class="room-price">₦150,000 / night</div>
+        <div class="room-desc">Clean-lined and modern, this open-plan studio pairs a queen bed with a fully equipped kitchenette. Designed for the independent traveller who wants to settle in, not just sleep.</div>
+        <div class="room-tags"><span>queen bed</span><span>kitchenette</span><span>dining area</span><span>Wi‑Fi</span><span>garden view</span></div>
+        <div class="room-meta"><span>✦ 35 m²</span><span>✦ up to 2 guests</span><span>✦ fully equipped</span></div>
+        <span class="tap-hint" data-lightbox="studio">Take a peek inside</span>
+        <button class="btn-book-room" data-room="Studio Sanctuary" data-price="150000">Check availability</button>
+      </div>
+    </div>
+
+    <div class="slide" id="oneroom" data-index="4" data-section="rooms" data-room="One Bedroom Apartment" data-price="210000" style="background-image:url('https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_5.jpg')" tabindex="0" aria-label="View One Bedroom Apartment">
+      <div class="slide-section-badge">The rooms</div>
+      <div class="lightbox" id="lightbox-oneroom" data-room="oneroom" style="background-image:url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1600&h=1000&fit=crop&crop=center')" role="dialog" aria-modal="true" aria-label="One Bedroom gallery">
+        <button class="lightbox-close" data-lightbox="oneroom" aria-label="Close gallery">✕</button>
+        <div class="lightbox-gallery"></div>
+        <div class="lightbox-thumbs"></div>
+        <div class="lightbox-counter"></div>
+      </div>
+      <div class="slide-text">
+        <div class="room-badge">Apartment</div>
+        <div class="room-title">One Bedroom Apartment</div>
+        <div class="room-price">from ₦210,000 / night</div>
+        <div class="room-desc">A proper apartment with a king bedroom, separate living area, and full kitchen. Choose from a private balcony or a tucked-away hideaway. Washer, dryer, and dining space make it genuinely liveable — ideal for week-long stays or slow mornings.</div>
+        <div class="room-tags"><span>king bed</span><span>full kitchen</span><span>living room</span><span>dining area</span><span>balcony or hideaway</span></div>
+        <div class="room-meta"><span>✦ 40–45 m²</span><span>✦ up to 3 guests</span><span>✦ garden view</span></div>
+        <span class="tap-hint" data-lightbox="oneroom">Take a peek inside</span>
+        <button class="btn-book-room" data-room="One Bedroom Apartment" data-price="210000">Check availability</button>
+      </div>
+    </div>
+
+    <div class="slide" id="poolview" data-index="5" data-section="rooms" data-room="One Bedroom Pool View" data-price="230000" style="background-image:url('https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people.jpg')" tabindex="0" aria-label="View Pool View Suite">
+      <div class="slide-section-badge">The rooms</div>
+      <div class="lightbox" id="lightbox-poolview" data-room="poolview" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&h=1000&fit=crop&crop=center')" role="dialog" aria-modal="true" aria-label="Pool View gallery">
+        <button class="lightbox-close" data-lightbox="poolview" aria-label="Close gallery">✕</button>
+        <div class="lightbox-gallery"></div>
+        <div class="lightbox-thumbs"></div>
+        <div class="lightbox-counter"></div>
+      </div>
+      <div class="slide-text">
+        <div class="room-badge">Pool View Suite</div>
+        <div class="room-title">One Bedroom Pool View</div>
+        <div class="room-price">₦230,000 / night</div>
+        <div class="room-desc">The same generous one-bedroom layout, now with a terrace that opens onto the pool. Morning coffee tastes different with water in view.</div>
+        <div class="room-tags"><span>king bed</span><span>pool view</span><span>full kitchen</span><span>living area</span><span>washer/dryer</span></div>
+        <div class="room-meta"><span>✦ 40 m²</span><span>✦ up to 3 guests</span><span>✦ pool access</span></div>
+        <span class="tap-hint" data-lightbox="poolview">Take a peek inside</span>
+        <button class="btn-book-room" data-room="One Bedroom Pool View" data-price="230000">Check availability</button>
+      </div>
+    </div>
+
+    <div class="slide" id="twobed" data-index="6" data-section="rooms" data-room="Two Bedroom Apartment" data-price="280000" style="background-image:url('https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_3.jpg')" tabindex="0" aria-label="View Two Bedroom Apartment">
+      <div class="slide-section-badge">The rooms</div>
+      <div class="lightbox" id="lightbox-twobed" data-room="twobed" style="background-image:url('https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_4.jpg')" role="dialog" aria-modal="true" aria-label="Two Bedroom gallery">
+        <button class="lightbox-close" data-lightbox="twobed" aria-label="Close gallery">✕</button>
+        <div class="lightbox-gallery"></div>
+        <div class="lightbox-thumbs"></div>
+        <div class="lightbox-counter"></div>
+      </div>
+      <div class="slide-text">
+        <div class="room-badge">Family Apartment</div>
+        <div class="room-title">Two Bedroom Apartment</div>
+        <div class="room-price">₦280,000 / night</div>
+        <div class="room-desc">Two king bedrooms, two bathrooms, and an expansive living area that actually fits everyone. Full kitchen, washer/dryer, and garden views make this the one for families or small groups travelling together.</div>
+        <div class="room-tags"><span>2 king beds</span><span>full kitchen</span><span>2 bathrooms</span><span>washer/dryer</span><span>family friendly</span></div>
+        <div class="room-meta"><span>✦ 65 m²</span><span>✦ up to 4+ guests</span><span>✦ garden view</span></div>
+        <span class="tap-hint" data-lightbox="twobed">Take a peek inside</span>
+        <button class="btn-book-room" data-room="Two Bedroom Apartment" data-price="280000">Check availability</button>
+      </div>
+    </div>
+
+    <div class="slide" id="gallery" data-index="7" data-section="gallery" tabindex="0" aria-label="Photo gallery">
+      <div class="slide-section-badge">Explore</div>
+      <div class="lightbox gallery-lightbox no-counter" id="lightbox-gallery" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&h=1000&fit=crop&crop=center')" role="dialog" aria-modal="true" aria-label="Gallery carousel">
+        <button class="lightbox-close" data-lightbox="gallery" aria-label="Close gallery">✕</button>
+        <div class="lightbox-gallery" id="galleryLightboxGallery"></div>
+        <div class="lightbox-thumbs"></div>
+        <div class="lightbox-counter"></div>
+      </div>
+      <div class="gallery-container">
+        <h3>The moments</h3>
+        <div class="gallery-sub">A peek inside</div>
+        <div class="masonry-grid" id="masonryGrid"></div>
+        <div class="gallery-footer">More on <a href="https://instagram.com/uloresidency" target="_blank" rel="noopener">Instagram →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar" id="bottomBar" role="contentinfo">
+    <div class="booking-engine" id="bookingEngine">
+      <div class="booking-engine-inner">
+        <input type="hidden" id="activeRoom" value="" />
+        <input type="hidden" id="activeRoomPrice" value="" />
+        <div class="booking-row">
+          <div class="booking-item"><label for="checkin">Arrival</label><input type="date" id="checkin" aria-label="Check-in date" /></div>
+          <div class="booking-item"><label for="checkout">Departure</label><input type="date" id="checkout" aria-label="Check-out date" /></div>
+          <div class="booking-item"><label for="guests">Guests</label><select id="guests" aria-label="Number of guests"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option></select></div>
+        </div>
+        <div class="booking-row">
+          <button class="btn-book-confirm" id="btnBookConfirm" aria-label="Confirm booking">Lock it in</button>
+          <button class="btn-close-engine" id="btnCloseEngine" aria-label="Close booking">Not yet</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-info">
+      <a href="https://maps.google.com/?q=39A+Dr.+Ladi+Alakija+Street,+Lekki,+Lagos" target="_blank" rel="noopener" aria-label="Open address in Google Maps">39A Dr. Ladi Alakija, Lekki Phase 1</a>
+      <span class="footer-divider"></span>
+      <a href="tel:+2349119109461" aria-label="Call Ulõ front desk">Ring us</a>
+      <span class="footer-divider"></span>
+      <a href="https://wa.me/2349119109461?text=Hello%20Ulõ%20👋" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">Say hi</a>
+    </div>
+  </div>
+
+  <div class="checkout-overlay" id="checkoutModal" role="dialog" aria-modal="true" aria-label="Booking confirmation">
+    <div class="checkout-card">
+      <h2>Almost there</h2>
+      <div class="sub">We'll confirm within 24 hours.</div>
+      <div id="checkoutSummary">
+        <div class="summary-item"><span>Room</span><span id="summaryRoom">—</span></div>
+        <div class="summary-item"><span>Arrival</span><span id="summaryCheckin">—</span></div>
+        <div class="summary-item"><span>Departure</span><span id="summaryCheckout">—</span></div>
+        <div class="summary-item"><span>Guests</span><span id="summaryGuests">—</span></div>
+        <div class="summary-item total"><span>Total</span><span id="summaryTotal">—</span></div>
+      </div>
+      <div class="form-group"><label for="guestName">Full name</label><input type="text" id="guestName" placeholder="e.g. Adeola Ogun" aria-label="Your full name" /></div>
+      <div class="form-group"><label for="guestEmail">Email</label><input type="email" id="guestEmail" placeholder="you@example.com" aria-label="Your email address" /></div>
+      <div class="form-group"><label for="guestPhone">Phone <span style="opacity:0.4;font-weight:300;">(optional)</span></label><input type="tel" id="guestPhone" placeholder="+234 800 000 0000" aria-label="Your phone number" /></div>
+      <div class="form-group"><label for="guestNotes">Special requests <span style="opacity:0.4;font-weight:300;">(optional)</span></label><input type="text" id="guestNotes" placeholder="Late check-in? Anniversary?" aria-label="Special requests" /></div>
+      <div class="checkout-actions">
+        <button class="btn-cancel" id="checkoutCancel" aria-label="Cancel">Never mind</button>
+        <button class="btn-confirm" id="checkoutConfirm" aria-label="Send enquiry">Send it over</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      'use strict';
+
+      // ============================================================
+      // AVAILABILITY SYSTEM
+      // ============================================================
+      var availabilityData = null;
+
+      fetch('/rooms.json?' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) { 
+          availabilityData = data;
+          updateAvailabilityDots();
+        })
+        .catch(function() {
+          console.warn('Availability data not loaded — allowing all bookings');
+        });
+
+      function getAvailability(catId, dateStr) {
+        if (!availabilityData || !availabilityData.categories) return 999;
+        var cat = availabilityData.categories[catId];
+        if (!cat) return 0;
+        var booked = cat.bookedDates || [];
+        var blocked = cat.blockedDates || [];
+        if (booked.indexOf(dateStr) !== -1 || blocked.indexOf(dateStr) !== -1) {
+          return Math.max(0, cat.totalAvailable - booked.filter(function(d){ return d===dateStr; }).length);
+        }
+        return cat.totalAvailable - booked.filter(function(d){ return d===dateStr; }).length;
+      }
+
+      function checkAvailability(catId, checkin, checkout) {
+        if (!availabilityData || !availabilityData.categories) return { available: true };
+        var cat = availabilityData.categories[catId];
+        if (!cat) return { available: false };
+        var current = new Date(checkin + 'T00:00:00');
+        var end = new Date(checkout + 'T00:00:00');
+        while (current < end) {
+          if (getAvailability(catId, current.toISOString().split('T')[0]) <= 0) return { available: false };
+          current.setDate(current.getDate() + 1);
+        }
+        return { available: true };
+      }
+
+      function updateAvailabilityDots() {
+        if (!availabilityData || !availabilityData.categories) return;
+        var map = {
+          'Comfort Zone': 'comfort',
+          'Super Comfort': 'super',
+          'Studio Sanctuary': 'studio',
+          'Studio Room': 'studio',
+          'One Bedroom Apartment': 'onebed',
+          'One Bedroom Pool View': 'onebed',
+          'Two Bedroom Apartment': 'twobed'
+        };
+        document.querySelectorAll('.slide[data-section="rooms"]').forEach(function(slide) {
+          var catId = map[slide.getAttribute('data-room')||''];
+          if (!catId) return;
+          var today = new Date(), availDays = 0;
+          for (var i = 0; i < 30; i++) { 
+            var d = new Date(today); d.setDate(d.getDate()+i); 
+            if (getAvailability(catId, d.toISOString().split('T')[0]) > 0) availDays++; 
+          }
+          var dot = document.createElement('span');
+          dot.style.cssText = 'display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:8px;vertical-align:middle;position:relative;top:-1px;flex-shrink:0;';
+          dot.style.backgroundColor = availDays === 0 ? '#C62828' : (availDays < 10 ? '#F57C00' : '#4CAF50');
+          dot.title = availDays === 0 ? 'Fully booked' : (availDays < 10 ? 'Limited: '+availDays+' days' : 'Available: '+availDays+' days');
+          var title = slide.querySelector('.room-title');
+          if (title) { 
+            var ex = title.querySelector('[style*="border-radius:50%"]'); 
+            if (ex) ex.remove(); 
+            title.appendChild(dot); 
+          }
+        });
+      }
+
+      // ============================================================
+      // LIGHTBOX IMAGES — TasteWP S3 URLs
+      // ============================================================
+      var roomImages = {
+        comfort: [
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/King-bed.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/King-bed2.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Bathroom.JPG'
+        ],
+        super: [
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Super-comfort-zone.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/King-bed.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Bathroom2.JPG'
+        ],
+        studio: [
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-accents_2.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-accents_3.jpg'
+        ],
+        oneroom: [
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/1bed-balcony.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/1bed-hideout.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Bathroom.JPG'
+        ],
+        poolview: [
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/1bed-poolview.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Pool-view.JPG',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Pool.jpg'
+        ],
+        twobed: [
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/2bed.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/King-bed.jpg',
+          'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Bathroom2.JPG'
+        ]
+      };
+
+      var allGalleryImages = [];
+      Object.values(roomImages).forEach(function(arr) { 
+        allGalleryImages = allGalleryImages.concat(arr); 
+      });
+
+      var extraGalleryImages = [
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-accents.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-accents-nsibidi.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_2.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_3.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_4.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_5.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/ulo-people_7.jpg',
+        'https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/connect.jpg'
+      ];
+
+      allGalleryImages = allGalleryImages.concat(extraGalleryImages);
+      allGalleryImages.sort(function() { return Math.random() - 0.5; });
+
+      Object.keys(roomImages).forEach(function(roomId){
+        var lb = document.getElementById('lightbox-' + roomId);
+        if(!lb) return;
+        var images = roomImages[roomId];
+        var gallery = lb.querySelector('.lightbox-gallery');
+        var thumbs = lb.querySelector('.lightbox-thumbs');
+        var counter = lb.querySelector('.lightbox-counter');
+        var total = images.length;
+        images.forEach(function(src, i){
+          var img = document.createElement('img'); img.src = src; img.alt = roomId + ' photo ' + (i+1); img.loading = 'lazy';
+          gallery.appendChild(img);
+          var thumb = document.createElement('img'); thumb.src = src; thumb.className = 'thumb' + (i===0?' active':''); thumb.setAttribute('data-index', i); thumb.alt = 'Thumb ' + (i+1);
+          thumbs.appendChild(thumb);
+        });
+        if(total <= 1){ lb.classList.add('no-counter'); counter.style.display = 'none'; thumbs.style.display = 'none'; }
+        else { counter.textContent = '1 of ' + total; }
+      });
+
+      var galleryLb = document.getElementById('lightbox-gallery');
+      var galleryLbGallery = document.getElementById('galleryLightboxGallery');
+      allGalleryImages.forEach(function(src, i){
+        var img = document.createElement('img'); img.src = src; img.alt = 'Gallery image ' + (i+1); img.loading = 'lazy'; img.setAttribute('data-gallery-index', i);
+        galleryLbGallery.appendChild(img);
+      });
+
+      var masonryGrid = document.getElementById('masonryGrid');
+      var videoTile = document.createElement('div'); videoTile.className = 'masonry-item video-tile';
+      videoTile.innerHTML = '<video src="https://www.w3schools.com/html/mov_bbb.mp4" muted loop playsinline poster="https://ulolagos.s3-tastewp.com/wp-content/uploads/2026/07/Pool.jpg"></video><button class="play-overlay" aria-label="Play video">▶</button>';
+      masonryGrid.appendChild(videoTile);
+
+      allGalleryImages.forEach(function(src, i){
+        var item = document.createElement('div'); item.className = 'masonry-item';
+        var img = document.createElement('img'); img.src = src; img.alt = 'Ulõ property'; img.loading = 'lazy';
+        item.appendChild(img);
+        item.addEventListener('click', function(){ openLbAtIndex(galleryLb, i); });
+        masonryGrid.appendChild(item);
+      });
+
+      var galleryVideo = videoTile.querySelector('video');
+      var galleryPlayBtn = videoTile.querySelector('.play-overlay');
+      if(galleryVideo && galleryPlayBtn){
+        galleryPlayBtn.addEventListener('click', function(e){ e.stopPropagation(); if(galleryVideo.paused){ galleryVideo.play().catch(function(){}); galleryPlayBtn.classList.add('hidden'); } else { galleryVideo.pause(); galleryPlayBtn.classList.remove('hidden'); } });
+        galleryVideo.addEventListener('pause', function(){ galleryPlayBtn.classList.remove('hidden'); });
+        galleryVideo.addEventListener('ended', function(){ galleryPlayBtn.classList.remove('hidden'); });
+        videoTile.addEventListener('click', function(e){ if(e.target===videoTile||e.target===galleryVideo){ if(galleryVideo.paused){ galleryVideo.play().catch(function(){}); galleryPlayBtn.classList.add('hidden'); } else { galleryVideo.pause(); galleryPlayBtn.classList.remove('hidden'); } return; } openLbAtIndex(galleryLb, 0); });
+      }
+
+      var preloader = document.getElementById('preloader');
+      window.addEventListener('load', function(){ setTimeout(function(){ preloader.classList.add('hidden'); document.body.classList.add('loaded'); }, 1800); });
+      function showBriefLoader(cb){ preloader.classList.remove('hidden'); preloader.classList.add('brief'); setTimeout(function(){ preloader.classList.add('hidden'); if(cb) cb(); }, 600); }
+
+      var isSlowIOS = /iPad|iPhone/.test(navigator.userAgent) && 
+        parseFloat(navigator.appVersion.match(/OS (\d+)_/)?.[1] || '99') < 16;
+      if (isSlowIOS) {
+        document.documentElement.classList.add('reduce-blur');
+        document.documentElement.style.setProperty('--dur-atmospheric', '0s');
+      }
+
+      var navToggle = document.getElementById('navToggle'), navMenu = document.getElementById('navMenu');
+      navToggle.addEventListener('click', function(){ var o = navToggle.classList.toggle('open'); navMenu.classList.toggle('open'); navToggle.setAttribute('aria-expanded', o); });
+      document.addEventListener('click', function(e){ if(!e.target.closest('.header')&&!e.target.closest('.nav-menu')){ navToggle.classList.remove('open'); navMenu.classList.remove('open'); navToggle.setAttribute('aria-expanded','false'); } });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&navMenu.classList.contains('open')){ navToggle.classList.remove('open'); navMenu.classList.remove('open'); navToggle.setAttribute('aria-expanded','false'); navToggle.focus(); } });
+      navMenu.querySelectorAll('a').forEach(function(l){ l.addEventListener('click', function(){ navToggle.classList.remove('open'); navMenu.classList.remove('open'); navToggle.setAttribute('aria-expanded','false'); }); });
+
+      function openLb(lb){ openLbAtIndex(lb, 0); }
+      function openLbAtIndex(lb, startIndex){
+        document.querySelectorAll('.lightbox.open').forEach(function(x){ x.classList.remove('open'); });
+        lb.classList.add('open'); document.body.classList.add('lightbox-open');
+        var g = lb.querySelector('.lightbox-gallery'); if(!g) return;
+        var imgs = g.querySelectorAll('img'); var total = imgs.length;
+        if(total > 0 && startIndex < total){
+          var imgWidth = imgs[0].clientWidth || g.clientWidth || 800;
+          g.scrollLeft = startIndex * (imgWidth + 16);
+        } else { g.scrollLeft = 0; }
+        var counter = lb.querySelector('.lightbox-counter');
+        var isNoCounter = lb.classList.contains('no-counter');
+        if(counter && !isNoCounter && total > 1) counter.textContent = (Math.min(startIndex, total-1)+1) + ' of ' + total;
+        if(counter && isNoCounter) counter.style.display = 'none';
+        var thumbs = lb.querySelectorAll('.thumb'); thumbs.forEach(function(t,i){ t.classList.toggle('active', i===Math.min(startIndex, total-1)); });
+        var c = lb.querySelector('.lightbox-close'); if(c) setTimeout(function(){ c.focus(); }, 100);
+      }
+      function closeLb(lb){ lb.classList.remove('open'); document.body.classList.remove('lightbox-open'); }
+
+      document.querySelectorAll('.tap-hint').forEach(function(hint){
+        hint.addEventListener('click', function(e){ e.stopPropagation(); var lb = document.getElementById('lightbox-' + hint.getAttribute('data-lightbox')); if(lb) openLb(lb); });
+      });
+      document.querySelectorAll('.slide[data-section="rooms"] .slide-text').forEach(function(td){
+        td.addEventListener('click', function(e){ if(e.target.closest('.btn-book-room')||e.target.closest('.tap-hint')) return; var s = td.closest('.slide'); if(!s) return; var lb = s.querySelector('.lightbox'); if(lb) openLb(lb); });
+      });
+      document.querySelectorAll('.lightbox-close').forEach(function(b){ b.addEventListener('click', function(e){ e.stopPropagation(); closeLb(b.closest('.lightbox')); }); });
+      document.querySelectorAll('.lightbox').forEach(function(lb){ lb.addEventListener('click', function(e){ if(e.target===lb) closeLb(lb); }); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') document.querySelectorAll('.lightbox.open').forEach(function(lb){ closeLb(lb); }); });
+
+      document.querySelectorAll('.lightbox-gallery').forEach(function(g){
+        g.addEventListener('scroll', function(){
+          var lb = g.closest('.lightbox'); if(!lb||lb.classList.contains('no-counter')) return;
+          var imgs = g.querySelectorAll('img'); var total = imgs.length; if(total<=1) return;
+          var imgWidth = imgs[0].clientWidth || g.clientWidth || 800;
+          var idx = Math.round(g.scrollLeft / (imgWidth + 16)); if(idx<0) idx=0; if(idx>=total) idx=total-1;
+          var thumbs = lb.querySelectorAll('.thumb'); thumbs.forEach(function(t,i){ t.classList.toggle('active', i===idx); });
+          var counter = lb.querySelector('.lightbox-counter'); if(counter) counter.textContent = (idx+1) + ' of ' + total;
+        });
+      });
+      document.querySelectorAll('.lightbox-thumbs .thumb').forEach(function(t){
+        t.addEventListener('click', function(){
+          var lb = t.closest('.lightbox'); if(!lb) return;
+          var g = lb.querySelector('.lightbox-gallery'); if(!g) return;
+          var imgs = g.querySelectorAll('img'); var imgWidth = imgs[0]?imgs[0].clientWidth||800:800;
+          g.scrollLeft = parseInt(t.getAttribute('data-index')) * (imgWidth + 16);
+        });
+      });
+
+      var bottomBar = document.getElementById('bottomBar'), scrollWrapper = document.getElementById('scrollWrapper');
+      var activeRoomInput = document.getElementById('activeRoom'), activeRoomPriceInput = document.getElementById('activeRoomPrice');
+      function expandBar(){ bottomBar.classList.add('expanded'); scrollWrapper.classList.add('expanded'); }
+      function collapseBar(){ bottomBar.classList.remove('expanded'); scrollWrapper.classList.remove('expanded'); }
+
+      var allSlides = document.querySelectorAll('.slide');
+      var slideIds = ['about','comfort','super','studio','oneroom','poolview','twobed','gallery'];
+      var sectionLabels = { about:'The vibe', rooms:'The rooms', gallery:'Gallery' };
+      var prevBtn = document.getElementById('prevSlideBtn'), nextBtn = document.getElementById('nextSlideBtn');
+      var prevLabel = document.getElementById('prevSlideLabel'), nextLabel = document.getElementById('nextSlideLabel');
+      var swipeLeftNav = document.getElementById('swipeLeftNav'), swipeRightNav = document.getElementById('swipeRightNav');
+      var sectionIndicator = document.getElementById('sectionIndicator');
+      var sectionName = sectionIndicator.querySelector('.section-name'), sectionSub = sectionIndicator.querySelector('.section-sub'), roomCounter = document.getElementById('roomCounter');
+      var totalRoomSlides = document.querySelectorAll('.slide[data-section="rooms"]').length;
+
+      var resizeTimeout;
+      function updateUI(){
+        var sl = scrollWrapper.scrollLeft, w = scrollWrapper.clientWidth;
+        var idx = Math.round(sl/w); if(idx<0) idx=0; if(idx>=allSlides.length) idx=allSlides.length-1;
+        var cur = allSlides[idx], sec = cur.dataset.section||'about';
+        if(sec==='rooms'){ activeRoomInput.value = cur.getAttribute('data-room')||''; activeRoomPriceInput.value = cur.getAttribute('data-price')||''; }
+
+        sectionIndicator.classList.add('visible');
+        sectionName.textContent = sectionLabels[sec]||'Explore';
+        if(sec==='rooms'){
+          var rn=0; for(var i=0;i<idx;i++){ if(allSlides[i].dataset.section==='rooms') rn++; } rn++;
+          sectionSub.textContent = cur.getAttribute('data-room')||''; roomCounter.style.display='inline'; roomCounter.textContent=rn+' of '+totalRoomSlides;
+        } else if(sec==='about'){ sectionSub.textContent='Ulõ Residence'; roomCounter.style.display='none'; }
+        else { sectionSub.textContent='Photo gallery'; roomCounter.style.display='none'; }
+
+        // Left nav
+        if (idx === 0) {
+          prevBtn.style.display = 'none';
+          prevLabel.style.display = 'none';
+          swipeLeftNav.classList.add('hidden');
+        } else if (idx === slideIds.length - 1) {
+          prevBtn.style.display = 'none';
+          prevLabel.style.display = 'flex';
+          prevLabel.textContent = 'Back to rooms';
+          prevLabel.href = '#comfort';
+          swipeLeftNav.classList.remove('hidden');
+        } else {
+          prevBtn.style.display = 'flex';
+          prevBtn.href = '#' + slideIds[idx - 1];
+          prevLabel.style.display = 'none';
+          swipeLeftNav.classList.remove('hidden');
+        }
+
+        // Right nav
+        if (idx === 0) {
+          nextBtn.style.display = 'none';
+          nextLabel.style.display = 'flex';
+          nextLabel.textContent = 'Our rooms';
+          nextLabel.href = '#comfort';
+          swipeRightNav.classList.remove('hidden');
+        } else if (idx === slideIds.length - 1) {
+          nextBtn.style.display = 'none';
+          nextLabel.style.display = 'none';
+          swipeRightNav.classList.add('hidden');
+        } else {
+          nextBtn.style.display = 'flex';
+          nextBtn.href = '#' + slideIds[idx + 1];
+          nextLabel.style.display = 'none';
+          swipeRightNav.classList.remove('hidden');
+        }
+
+        // Reset scroll position when entering About or Gallery slides
+        if (sec === 'about') {
+          var invitation = cur.querySelector('.invitation');
+          if (invitation) invitation.scrollTop = 0;
+        }
+        if (sec === 'gallery') {
+          cur.scrollTop = 0;
+        }
+
+        document.querySelectorAll('.desktop-nav a').forEach(function(l,i){ l.classList.toggle('active', i===idx); });
+        document.querySelectorAll('.scroll-snap-indicator .dot').forEach(function(d,i){ d.classList.toggle('active', i===idx); });
+      }
+      scrollWrapper.addEventListener('scroll', updateUI, { passive:true });
+      window.addEventListener('resize', function(){ clearTimeout(resizeTimeout); resizeTimeout = setTimeout(updateUI, 200); });
+      updateUI();
+
+      document.querySelectorAll('.scroll-snap-indicator .dot').forEach(function(dot){
+        dot.addEventListener('click', function(e){
+          e.preventDefault();
+          var i = parseInt(dot.getAttribute('data-index'));
+          if(!isNaN(i) && allSlides[i]) allSlides[i].scrollIntoView({ behavior:'smooth', inline:'start' });
+        });
+      });
+
+      var nonRoomSlides = document.querySelectorAll('.slide[data-section="about"], .slide[data-section="gallery"]');
+      var collapseObs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting&&bottomBar.classList.contains('expanded')) collapseBar(); }); }, { threshold:0.5, root:scrollWrapper });
+      nonRoomSlides.forEach(function(s){ collapseObs.observe(s); });
+      document.getElementById('btnCloseEngine').addEventListener('click', collapseBar);
+      document.addEventListener('click', function(e){ if(bottomBar.classList.contains('expanded')&&!e.target.closest('.bottom-bar')&&!e.target.closest('.btn-book-room')) collapseBar(); });
+
+      document.querySelectorAll('.btn-book-room').forEach(function(b){
+        b.addEventListener('click', function(e){
+          e.stopPropagation();
+          activeRoomInput.value = b.getAttribute('data-room');
+          activeRoomPriceInput.value = b.getAttribute('data-price');
+          expandBar();
+        });
+      });
+
+      var checkinInput = document.getElementById('checkin'), checkoutInput = document.getElementById('checkout');
+      var today = new Date(), tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate()+1);
+      var dayAfter = new Date(today); dayAfter.setDate(dayAfter.getDate()+3);
+      checkinInput.value = tomorrow.toISOString().split('T')[0]; checkoutInput.value = dayAfter.toISOString().split('T')[0];
+      checkinInput.addEventListener('change', function(){ var d=new Date(this.value); if(isNaN(d.getTime())) return; var nc=new Date(d); nc.setDate(nc.getDate()+2); var cc=new Date(checkoutInput.value); if(isNaN(cc.getTime())||cc<=d) checkoutInput.value=nc.toISOString().split('T')[0]; });
+
+      function triggerEntry(slide){ slide.classList.add('slide-enter'); }
+      function resetEntry(slide){ slide.classList.remove('slide-enter'); }
+      var entryObs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting) triggerEntry(e.target); else resetEntry(e.target); }); }, { threshold:0.5, root:scrollWrapper });
+      allSlides.forEach(function(s){ entryObs.observe(s); });
+
+      var checkoutModal = document.getElementById('checkoutModal');
+      document.getElementById('btnBookConfirm').addEventListener('click', function(){
+        var room = activeRoomInput.value, price = parseInt(activeRoomPriceInput.value)||85000;
+        if(!room){ var fr=document.querySelector('.slide[data-section="rooms"]'); if(fr){ room=fr.getAttribute('data-room'); price=parseInt(fr.getAttribute('data-price'))||85000; } }
+        var ci=checkinInput.value, co=checkoutInput.value, gu=document.getElementById('guests').value;
+        var nights=Math.max(1,Math.ceil((new Date(co)-new Date(ci))/(86400000)));
+        document.getElementById('summaryRoom').textContent=room; document.getElementById('summaryCheckin').textContent=ci||'—';
+        document.getElementById('summaryCheckout').textContent=co||'—'; document.getElementById('summaryGuests').textContent=gu;
+        document.getElementById('summaryTotal').textContent='₦'+(price*nights).toLocaleString();
+        checkoutModal.classList.add('open'); setTimeout(function(){ document.getElementById('guestName').focus(); },300); collapseBar();
+      });
+      document.getElementById('checkoutCancel').addEventListener('click', function(){ checkoutModal.classList.remove('open'); });
+      checkoutModal.addEventListener('click', function(e){ if(e.target===checkoutModal) checkoutModal.classList.remove('open'); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&checkoutModal.classList.contains('open')){ checkoutModal.classList.remove('open'); showBriefLoader(); } if(e.key==='Escape'&&bottomBar.classList.contains('expanded')) collapseBar(); });
+      
+      document.getElementById('checkoutConfirm').addEventListener('click', function(){
+        var n = document.getElementById('guestName').value.trim();
+        var em = document.getElementById('guestEmail').value.trim();
+        if(!n || !em){ alert('Please fill in your name and email.'); return; }
+
+        var room = document.getElementById('summaryRoom').textContent;
+        var ci = document.getElementById('summaryCheckin').textContent;
+        var co = document.getElementById('summaryCheckout').textContent;
+
+        var catMap = {
+          'Comfort Zone': 'comfort', 'Super Comfort': 'super', 'Studio Sanctuary': 'studio',
+          'Studio Room': 'studio', 'One Bedroom Apartment': 'onebed',
+          'One Bedroom Pool View': 'onebed', 'Two Bedroom Apartment': 'twobed'
+        };
+        var catId = catMap[room];
+        if (catId && availabilityData) {
+          var result = checkAvailability(catId, ci, co);
+          if (!result.available) { 
+            alert('Sorry, ' + room + ' is not available for these dates.\n\nPlease try different dates or call +234 911 910 9461.'); 
+            return; 
+          }
+        }
+
+        var btn = this; var orig = btn.textContent; btn.textContent = 'Sending...'; btn.disabled = true;
+        var phone = document.getElementById('guestPhone').value.trim();
+        var notes = document.getElementById('guestNotes').value.trim();
+        var gu = document.getElementById('summaryGuests').textContent;
+        var total = document.getElementById('summaryTotal').textContent;
+
+        var fd = new FormData();
+        fd.append('name', n); fd.append('email', em); fd.append('phone', phone||'Not provided');
+        fd.append('notes', notes||'None'); fd.append('room', room); fd.append('checkin', ci);
+        fd.append('checkout', co); fd.append('guests', gu); fd.append('total', total);
+        fd.append('_subject', 'Booking: ' + room + ' – ' + n);
+
+        fetch('https://formspree.io/f/xykrwkoy', { method:'POST', headers:{'Accept':'application/json'}, body:fd })
+        .then(function(r){ 
+          if(r.ok) return r.json(); 
+          throw new Error('Failed'); 
+        })
+        .then(function(){
+          var mc = document.querySelector('.checkout-card');
+          mc.innerHTML = '<div style="text-align:center;padding:var(--space-lg) 0;">'+
+            '<div style="font-family:\'Playfair Display\',serif;font-style:italic;font-size:2rem;color:var(--color-gold);margin-bottom:var(--space-sm);">✧</div>'+
+            '<h2 style="font-family:\'DM Serif Display\',serif;font-size:var(--text-fluid-lg);margin-bottom:4px;font-weight:400;">All set, '+n.split(' ')[0]+'.</h2>'+
+            '<p style="color:var(--color-text-soft);line-height:1.8;max-width:300px;margin:0 auto var(--space-md);font-size:var(--text-base);">Your enquiry for <strong>'+room+'</strong> has been received.</p>'+
+            '<p style="font-size:var(--text-xs);color:var(--color-text-soft);opacity:0.5;">We\'ll confirm within a few hours.<br>'+(phone?'We may reach out via WhatsApp.':'Please check your email.')+'</p>'+
+            '<button onclick="document.getElementById(\'checkoutModal\').classList.remove(\'open\');" style="margin-top:var(--space-lg);background:transparent;border:1px solid var(--color-gold);color:var(--color-gold);padding:var(--space-xs) var(--space-xl);font-family:\'DM Sans\',sans-serif;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;">Close</button></div>';
+          document.getElementById('guestName').value=''; document.getElementById('guestEmail').value='';
+          document.getElementById('guestPhone').value=''; document.getElementById('guestNotes').value='';
+          showBriefLoader();
+        })
+        .catch(function(){ 
+          alert('Something went wrong. Please WhatsApp or call +234 911 910 9461.'); 
+        })
+        .finally(function(){
+          btn.textContent = orig; btn.disabled = false;
+        });
+      });
+
+      document.addEventListener('keydown', function(e){
+        if(e.target.closest('input, select, textarea, .lightbox')) return;
+        var sl=scrollWrapper.scrollLeft, w=scrollWrapper.clientWidth, idx=Math.round(sl/w);
+        if(e.key==='ArrowRight'&&idx<allSlides.length-1){ e.preventDefault(); allSlides[idx+1].scrollIntoView({behavior:'smooth',inline:'start'}); }
+        else if(e.key==='ArrowLeft'&&idx>0){ e.preventDefault(); allSlides[idx-1].scrollIntoView({behavior:'smooth',inline:'start'}); }
+      });
+
+      // ============================================================
+      // DYNAMIC IMAGE LOADER (overrides defaults when images.json exists)
+      // ============================================================
+      fetch('/images.json?' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          console.log('✅ Custom images loaded from images.json');
+          applyCustomImages(data);
+        })
+        .catch(function() {
+          console.log('ℹ️ Using default images');
+        });
+
+      function applyCustomImages(data) {
+        if (!data) return;
+        
+        if (data.slides) {
+          Object.keys(data.slides).forEach(function(key) {
+            var slide = document.getElementById(key);
+            var img = data.slides[key];
+            var url = typeof img === 'string' ? img : (img ? img.url : null);
+            if (slide && url) {
+              slide.style.backgroundImage = 'url(' + url + ')';
+            }
+          });
+        }
+        
+        if (data.lightbox) {
+          Object.keys(data.lightbox).forEach(function(roomId) {
+            var lb = document.getElementById('lightbox-' + roomId);
+            if (!lb) return;
+            var gallery = lb.querySelector('.lightbox-gallery');
+            var thumbs = lb.querySelector('.lightbox-thumbs');
+            if (!gallery) return;
+            
+            var images = data.lightbox[roomId];
+            if (!images || !images.length) return;
+            
+            gallery.innerHTML = '';
+            if (thumbs) thumbs.innerHTML = '';
+            
+            images.forEach(function(img, i) {
+              var url = typeof img === 'string' ? img : img.url;
+              var el = document.createElement('img');
+              el.src = url;
+              el.alt = roomId + ' photo ' + (i + 1);
+              el.loading = 'lazy';
+              gallery.appendChild(el);
+              
+              if (thumbs && images.length > 1) {
+                var thumb = document.createElement('img');
+                thumb.src = url;
+                thumb.className = 'thumb' + (i === 0 ? ' active' : '');
+                thumb.setAttribute('data-index', i);
+                thumb.alt = 'Thumb ' + (i + 1);
+                thumbs.appendChild(thumb);
+              }
+            });
+            
+            var counter = lb.querySelector('.lightbox-counter');
+            if (counter) {
+              counter.style.display = images.length <= 1 ? 'none' : '';
+              if (images.length > 1) counter.textContent = '1 of ' + images.length;
+            }
+          });
+        }
+        
+        if (data.gallery && data.gallery.length) {
+          var grid = document.getElementById('masonryGrid');
+          if (!grid) return;
+          
+          var vt = grid.querySelector('.video-tile');
+          var videoHTML = vt ? vt.outerHTML : '';
+          
+          grid.innerHTML = '';
+          if (videoHTML) grid.innerHTML = videoHTML;
+          
+          data.gallery.forEach(function(img, i) {
+            var url = typeof img === 'string' ? img : img.url;
+            var item = document.createElement('div');
+            item.className = 'masonry-item';
+            var imgEl = document.createElement('img');
+            imgEl.src = url;
+            imgEl.alt = 'Ulõ property';
+            imgEl.loading = 'lazy';
+            item.appendChild(imgEl);
+            item.addEventListener('click', function() {
+              var glb = document.getElementById('lightbox-gallery');
+              var glbg = document.getElementById('galleryLightboxGallery');
+              if (glb && glbg) openLbAtIndex(glb, i);
+            });
+            grid.appendChild(item);
+          });
+          
+          rebindVideoPlay();
+        }
+        
+        var glbg = document.getElementById('galleryLightboxGallery');
+        if (glbg && data.gallery) {
+          glbg.innerHTML = '';
+          data.gallery.forEach(function(img, i) {
+            var url = typeof img === 'string' ? img : img.url;
+            var el = document.createElement('img');
+            el.src = url;
+            el.alt = 'Gallery ' + (i + 1);
+            el.loading = 'lazy';
+            el.setAttribute('data-gallery-index', i);
+            glbg.appendChild(el);
+          });
+        }
+      }
+
+      function rebindVideoPlay() {
+        var vt = document.querySelector('.masonry-grid .video-tile');
+        if (!vt) return;
+        var video = vt.querySelector('video');
+        var playBtn = vt.querySelector('.play-overlay');
+        if (!video || !playBtn) return;
+        
+        playBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (video.paused) { video.play().catch(function(){}); playBtn.classList.add('hidden'); }
+          else { video.pause(); playBtn.classList.remove('hidden'); }
+        });
+        video.addEventListener('pause', function() { playBtn.classList.remove('hidden'); });
+        video.addEventListener('ended', function() { playBtn.classList.remove('hidden'); });
+      }
+
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/rooms.json"
+  to = "/rooms.json"
+  status = 200
+
+[[redirects]]
+  from = "/images.json"
+  to = "/images.json"
+  status = 200
