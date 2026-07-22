@@ -21,31 +21,22 @@ exports.handler = async (event) => {
   try {
     const filename = type === 'rooms' ? 'rooms.json' : 'images.json';
     const content = JSON.stringify(data, null, 2);
-    
-    // Use the SITE_ID and NETLIFY_TOKEN from the build environment
-    // These are auto-available during deploys — no env vars needed
     const siteId = process.env.SITE_ID;
-    const token = process.env.NETLIFY_TOKEN;
+    const token = process.env.ULO_DEPLOY_TOKEN;
     
-    // If those aren't available, try the custom ones
-    const finalSiteId = siteId || process.env.ULO_SITE_ID;
-    const finalToken = token || process.env.ULO_DEPLOY_TOKEN;
-    
-    if (!finalSiteId || !finalToken) {
+    if (!siteId || !token) {
       return { 
         statusCode: 500, 
         body: JSON.stringify({ 
-          error: 'Missing credentials. SITE_ID: ' + !!finalSiteId + ', TOKEN: ' + !!finalToken 
+          error: 'Missing credentials. siteId: ' + !!siteId + ', token: ' + !!token 
         }) 
       };
     }
 
-    console.log('Deploying to site:', finalSiteId);
-    
-    const response = await fetch(`https://api.netlify.com/api/v1/sites/${finalSiteId}/deploys`, {
+    const response = await fetch(`https://api.netlify.com/api/v1/sites/${siteId}/deploys`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${finalToken}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -62,18 +53,14 @@ exports.handler = async (event) => {
     const result = await response.json();
     
     if (!response.ok) {
-      console.error('Deploy API error:', result);
       throw new Error('Deploy failed: ' + (result.message || JSON.stringify(result)));
     }
 
-    console.log('Deploy successful:', result.id);
-    
     return { 
       statusCode: 200, 
       body: JSON.stringify({ success: true, file: filename, deploy_id: result.id }) 
     };
   } catch (err) {
-    console.error('Function error:', err);
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
 };
